@@ -27,5 +27,8 @@
   },
   "scripts": {
     "test": "grunt test"
+  },
+  "dependencies": {
+    "underscore-contrib": "^0.3.0"
   }
 }

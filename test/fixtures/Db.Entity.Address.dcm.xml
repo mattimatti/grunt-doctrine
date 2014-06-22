@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Db\Entity\Address" table="address">
+    <indexes>
+      <index name="client_id" columns="client_id"/>
+      <index name="country_code" columns="country_code"/>
+    </indexes>
+    
+    <id name="addressId" type="integer" column="address_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    
+    <many-to-one field="client" target-entity="Db\Entity\Client" fetch="LAZY">
+      <join-columns>
+        <join-column name="client_id" referenced-column-name="client_id"/>
+      </join-columns>
+    </many-to-one>
+    
+    <many-to-one field="country" target-entity="Db\Entity\Country" fetch="EAGER">
+      <join-columns>
+        <join-column name="country_code" referenced-column-name="country_code"/>
+      </join-columns>
+    </many-to-one>
+    
+  </entity>
+</doctrine-mapping>

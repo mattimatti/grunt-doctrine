@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Db\Entity\Client" table="client">
+    <indexes>
+      <index name="currency_code" columns="currency_code"/>
+    </indexes>
+    <id name="clientId" type="integer" column="client_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="firstName" type="string" column="first_name" length="255" nullable="true"/>
+    <field name="lastName" type="string" column="last_name" length="255" nullable="true"/>
+    <field name="organization" type="string" column="organization" length="255" nullable="true"/>
+    <field name="email" type="string" column="email" length="255" nullable="true"/>
+    <field name="username" type="string" column="username" length="255" nullable="true"/>
+    <field name="password" type="string" column="password" length="255" nullable="true"/>
+    <field name="workPhone" type="string" column="work_phone" length="255" nullable="true"/>
+    <field name="homePhone" type="string" column="home_phone" length="255" nullable="true"/>
+    <field name="mobile" type="string" column="mobile" length="255" nullable="true"/>
+    <field name="fax" type="string" column="fax" length="255" nullable="true"/>
+    <field name="notes" type="string" column="notes" length="255" nullable="true"/>
+    <field name="pStreet1" type="string" column="p_street1" length="255" nullable="true"/>
+    <field name="pStreet2" type="string" column="p_street2" length="255" nullable="true"/>
+    <field name="pCity" type="string" column="p_city" length="255" nullable="true"/>
+    <field name="pState" type="string" column="p_state" length="255" nullable="true"/>
+    <field name="pCode" type="string" column="p_code" length="255" nullable="true"/>
+    <field name="sStreet1" type="string" column="s_street1" length="255" nullable="true"/>
+    <field name="sStreet2" type="string" column="s_street2" length="255" nullable="true"/>
+    <field name="sCity" type="string" column="s_city" length="255" nullable="true"/>
+    <field name="sState" type="string" column="s_state" length="255" nullable="true"/>
+    <field name="vatName" type="string" column="vat_name" length="255" nullable="true"/>
+    <field name="vatNumber" type="string" column="vat_number" length="255" nullable="true"/>
+    <many-to-one field="currency" target-entity="Db\Entity\Currency" fetch="EAGER">
+      <join-columns>
+        <join-column name="currency_code" referenced-column-name="currency_code"/>
+      </join-columns>
+    </many-to-one>
+ 	<many-to-one field="country" target-entity="Db\Entity\Country" fetch="EAGER">
+      <join-columns>
+        <join-column name="country_code" referenced-column-name="country_code"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="language" target-entity="Db\Entity\Language" fetch="EAGER">
+      <join-columns>
+        <join-column name="language_code" referenced-column-name="language_code"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Db\Entity\EstimateContacts" table="estimate_contacts">
+    <indexes>
+      <index name="estimate_id" columns="estimate_id"/>
+    </indexes>
+    <id name="contact" association-key="true"/>
+    <one-to-one field="contact" target-entity="Db\Entity\Contact" fetch="LAZY">
+      <join-columns>
+        <join-column name="contact_id" referenced-column-name="contact_id"/>
+      </join-columns>
+    </one-to-one>
+    <many-to-one field="estimate" target-entity="Db\Entity\Estimate" fetch="LAZY">
+      <join-columns>
+        <join-column name="estimate_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

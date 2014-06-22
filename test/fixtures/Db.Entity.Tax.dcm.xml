@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Db\Entity\Tax" table="tax">
+    <id name="taxId" type="integer" column="tax_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="name" type="string" column="name" length="255" nullable="false"/>
+    <field name="rate" type="integer" column="rate" nullable="false"/>
+    <field name="number" type="integer" column="number" nullable="false"/>
+    <field name="compound" type="integer" column="compound" nullable="false"/>
+ 	<many-to-one field="country" target-entity="Db\Entity\Country" fetch="LAZY">
+      <join-columns>
+        <join-column name="country_code" referenced-column-name="country_code"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

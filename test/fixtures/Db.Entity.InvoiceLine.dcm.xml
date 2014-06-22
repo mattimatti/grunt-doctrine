@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Db\Entity\InvoiceLine" table="invoice_line">
+    <indexes>
+      <index name="estimate_id" columns="invoice_id"/>
+    </indexes>
+    <id name="invoiceLineId" type="integer" column="invoice_line_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="invoiceId" type="integer" column="invoice_id" nullable="false"/>
+    <field name="name" type="string" column="name" length="255" nullable="true"/>
+    <field name="description" type="string" column="description" length="255" nullable="true"/>
+    <field name="unitCost" type="float" column="unit_cost" precision="10" scale="0" nullable="false"/>
+    <field name="quantity" type="integer" column="quantity" nullable="false"/>
+    <field name="tax1Name" type="string" column="tax1_name" length="255" nullable="true"/>
+    <field name="tax2Name" type="string" column="tax2_name" length="255" nullable="true"/>
+    <field name="tax2Percent" type="string" column="tax2_percent" length="255" nullable="true"/>
+    <field name="tax1Percent" type="string" column="tax1_percent" length="255" nullable="true"/>
+    <field name="type" type="string" column="type" length="255" nullable="true"/>
+  </entity>
+</doctrine-mapping>

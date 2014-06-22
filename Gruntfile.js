@@ -28,26 +28,25 @@ module.exports = function (grunt) {
 
     // Before generating any new files, remove any previously-created files.
     clean: {
-      tests: ['tmp']
+      tests: ['tmp','modules','model','app']
     },
 
     // Configuration to be run (and then tested).
     doctrine: {
-      default_options: {
+
+      module: {
         options: {
+          mode: 'module',
+          appname: 'tmp/app'
         },
-        files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
-        }
+        src:['test/fixtures/**/*.xml']
       },
-      custom_options: {
+      structured: {
         options: {
-          separator: ': ',
-          punctuation: ' !!!'
+          mode: 'structured',
+          appname: 'tmp/app'
         },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
-        }
+        src: ['test/fixtures/**/*.xml']
       }
     },
 
