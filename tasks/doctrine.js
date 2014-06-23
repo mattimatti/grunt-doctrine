@@ -36,7 +36,7 @@ module.exports = function(grunt) {
       },
       modular: {
         scaffold: true,
-        tests : false
+        tests: false
       },
       beautify: {
         "indent_size": 4,
@@ -58,24 +58,28 @@ module.exports = function(grunt) {
     });
 
 
+
+    // VALIDATE
+
+
     // validate the options
     if (!_validateOptions(options)) {
       return;
     }
 
 
+    // PARSE
+
     var allEntities = [];
 
 
-    // Iterate over all specified file groups.
     this.filesSrc.forEach(function(file) {
 
-
       var xmlData = grunt.file.read(file);
-
       var json = {};
 
       var parseString = require('xml2js').parseString;
+
       parseString(xmlData, {
         trim: true,
         mergeAttrs: true,
@@ -84,19 +88,14 @@ module.exports = function(grunt) {
         json = result;
       });
 
-
-      // parse entitydata
-
       var entityData = _parseJson(json, options);
 
-
-      // add as indexed
       allEntities.push(entityData);
 
+    });
 
 
-    }); // end foreach
-
+    // ITERATE
 
 
     // Now all the model has been parsed
@@ -107,10 +106,17 @@ module.exports = function(grunt) {
       switch (options.mode) {
 
         case 'structured':
+
+          // build the models
           _createModels(allEntities, entityData, options);
+
+
+          // optionally scaffold the app
           if (options.modular.scaffold) {
-            _createStructured(allEntities, entityData, options);
+            _createBBB(allEntities, entityData, options);
           }
+
+
           break;
 
         case 'module':
@@ -122,104 +128,98 @@ module.exports = function(grunt) {
     });
 
 
-
-    // Print a success message.
-    grunt.log.writeln('Done!');
-
-
   });
 
 
 
   var _createModels = function(allEntities, entityData, options) {
 
-
-    //console.dir(options);
-
     // ORM Base
     //_createFromTemplate(entityData, 'model/basemodel.js', options.root + '/'+options.appName + '/doctrine/model', entityData.moduleName + 'Base.js', options, allEntities);
 
 
     // Model and collection
-    _createFromTemplate(entityData, 'model/model.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix , 'Model.js', options, allEntities);
-    _createFromTemplate(entityData, 'model/collection.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix , 'Collection.js', options, allEntities);
+    _createFromTemplate(entityData, 'model/model.js', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix, 'Model.js', options, allEntities);
+    _createFromTemplate(entityData, 'model/collection.js', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix, 'Collection.js', options, allEntities);
 
   };
 
 
 
-  var _createStructured = function(allEntities, entityData, options) {
+  var _createBBB = function(allEntities, entityData, options) {
 
 
     // Router
-    _createFromTemplate(entityData, 'structured/router.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix, 'Router.js', options, allEntities);
+    _createFromTemplate(entityData, 'bbb/router.js', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix, 'Router.js', options, allEntities);
 
 
-     // Views
-    _createFromTemplate(entityData, 'structured/views/listview.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/list', 'view.js', options, allEntities);
-    _createFromTemplate(entityData, 'structured/views/listview.html', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/list', 'template.html', options, allEntities);
+    // List View
+    _createFromTemplate(entityData, 'bbb/views/listview.js', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix + '/list', 'view.js', options, allEntities);
+    _createFromTemplate(entityData, 'bbb/views/listview.html', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix + '/list', 'template.html', options, allEntities);
 
 
-    _createFromTemplate(entityData, 'structured/views/createform.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/create', 'view.js', options, allEntities);
-    _createFromTemplate(entityData, 'structured/views/createform.html', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/create', 'template.html', options, allEntities);
+    // Create View
+    _createFromTemplate(entityData, 'bbb/views/createform.js', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix + '/create', 'view.js', options, allEntities);
+    _createFromTemplate(entityData, 'bbb/views/createform.html', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix + '/create', 'template.html', options, allEntities);
 
 
-    _createFromTemplate(entityData, 'structured/views/editform.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/edit', 'view.js', options, allEntities);
-    _createFromTemplate(entityData, 'structured/views/editform.html', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/edit', 'template.html', options, allEntities);
+    // Edit View
+    _createFromTemplate(entityData, 'bbb/views/editform.js', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix + '/edit', 'view.js', options, allEntities);
+    _createFromTemplate(entityData, 'bbb/views/editform.html', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix + '/edit', 'template.html', options, allEntities);
 
 
-    _createFromTemplate(entityData, 'structured/views/item.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/item', 'view.js', options, allEntities);
-    _createFromTemplate(entityData, 'structured/views/item.html', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/item', 'template.html', options, allEntities);
-
+    // Item View
+    _createFromTemplate(entityData, 'bbb/views/item.js', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix + '/item', 'view.js', options, allEntities);
+    _createFromTemplate(entityData, 'bbb/views/item.html', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix + '/item', 'template.html', options, allEntities);
 
 
     // Module
-    _createFromTemplate(entityData, 'structured/module.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/', 'Module.js', options, allEntities);
+    _createFromTemplate(entityData, 'bbb/module.js', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix + '/', 'Module.js', options, allEntities);
 
 
-      // Some lib classes
-     // _copyFromTemplate('structured/lib/baserouter.js', options.root + '/'+options.appName + '/lib', 'BaseRouter.js', options, allEntities);
-     // _copyFromTemplate('structured/lib/basecollection.js', options.root + '/'+options.appName + '/lib', 'BaseCollection.js', options, allEntities);
-      _copyFromTemplate('structured/lib/console.js', options.root + '/'+options.appName + '/lib', 'console.js', options, allEntities);
+    // Lib classes
+    // _copyFromTemplate('bbb/lib/baserouter.js', options.root + '/'+options.appName + '/lib', 'BaseRouter.js', options, allEntities);
+    // _copyFromTemplate('bbb/lib/basecollection.js', options.root + '/'+options.appName + '/lib', 'BaseCollection.js', options, allEntities);
 
-
-
-
-      // A Backbone Boilerplate App
-      _copyFromTemplate('structured/app.js', options.root + '/'+options.appName , 'app.js', options, allEntities);
-      _copyFromTemplate('structured/main.js', options.root + '/'+options.appName, 'main.js', options, allEntities);
-      _copyFromTemplate('structured/require.config.js', options.root + '/'+options.appName, 'config.js', options, allEntities);
-      _copyFromTemplate('structured/main.html', options.root + '/'+options.appName, 'templates/main.html', options, allEntities);
-      _copyFromTemplate('structured/app.router.js', options.root + '/'+options.appName, 'router.js', options, allEntities);
-
-
-      // Css
-      _copyFromTemplate('structured/css/index.css', options.root + '/'+options.appName , 'styles/index.css', options, allEntities);
-      _copyFromTemplate('structured/css/app.styl', options.root + '/'+options.appName , 'styles/app.styl', options, allEntities);
+    _copyFromTemplate('bbb/lib/console.js', options.root + '/' + options.appName + '/lib', 'console.js', options, allEntities);
 
 
 
-      // Builder
-       _copyFromTemplate('structured/.gitkeep', options.root + '/'+ 'vendor', '.gitkeep', options, allEntities);
-       _copyFromTemplate('structured/.gitignore', options.root, '.gitignore', options, allEntities);
-       _copyFromTemplate('structured/package.json', options.root, 'package.json', options, allEntities);
-       _copyFromTemplate('structured/bower.json', options.root, 'bower.json', options, allEntities);
-       _copyFromTemplate('structured/.bowerrc', options.root, '.bowerrc', options, allEntities);
+    // A Backbone Boilerplate App
+    _copyFromTemplate('bbb/app.js', options.root + '/' + options.appName, 'app.js', options, allEntities);
+    _copyFromTemplate('bbb/main.js', options.root + '/' + options.appName, 'main.js', options, allEntities);
+    _copyFromTemplate('bbb/require.config.js', options.root + '/' + options.appName, 'config.js', options, allEntities);
+    _copyFromTemplate('bbb/main.html', options.root + '/' + options.appName, 'templates/main.html', options, allEntities);
+    _copyFromTemplate('bbb/app.router.js', options.root + '/' + options.appName, 'router.js', options, allEntities);
 
 
-       grunt.file.copy('templates/structured/GruntFile.js',options.root + '/Gruntfile.js' );
-       grunt.file.copy('templates/structured/index.html',options.root + '/index.html' );
-      
+    // Styles
+    _copyFromTemplate('bbb/css/index.css', options.root + '/' + options.appName, 'styles/index.css', options, allEntities);
+    _copyFromTemplate('bbb/css/app.styl', options.root + '/' + options.appName, 'styles/app.styl', options, allEntities);
 
-     if (options.modular.tests) {
 
-        grunt.file.copy('templates/structured/test/runner.js',options.root + '/test/runner.js' );
-        grunt.file.copy('templates/structured/test/runner.js',options.root + '/test/jasmine/specs/example.spec.js' );
-        grunt.file.copy('templates/structured/test/runner.js',options.root + '/test/qunit/specs/example.spec.js' );
-        grunt.file.copy('templates/structured/test/runner.js',options.root + '/test/mocha/specs/example.spec.js' );
-        grunt.file.copy('templates/structured/test/runner.js',options.root + '/test/runner.js' );
 
-     }
+    // Build Tools
+    _copyFromTemplate('bbb/.gitkeep', options.root + '/' + 'vendor', '.gitkeep', options, allEntities);
+    _copyFromTemplate('bbb/.gitignore', options.root, '.gitignore', options, allEntities);
+    _copyFromTemplate('bbb/package.json', options.root, 'package.json', options, allEntities);
+    _copyFromTemplate('bbb/bower.json', options.root, 'bower.json', options, allEntities);
+    _copyFromTemplate('bbb/.bowerrc', options.root, '.bowerrc', options, allEntities);
+
+    grunt.file.copy('templates/bbb/GruntFile.js', options.root + '/Gruntfile.js');
+    grunt.file.copy('templates/bbb/index.html', options.root + '/index.html');
+
+
+    // Tests
+    if (options.modular.tests) {
+
+      grunt.file.copy('templates/bbb/test/runner.js', options.root + '/test/runner.js');
+      grunt.file.copy('templates/bbb/test/runner.js', options.root + '/test/jasmine/specs/example.spec.js');
+      grunt.file.copy('templates/bbb/test/runner.js', options.root + '/test/qunit/specs/example.spec.js');
+      grunt.file.copy('templates/bbb/test/runner.js', options.root + '/test/mocha/specs/example.spec.js');
+      grunt.file.copy('templates/bbb/test/runner.js', options.root + '/test/runner.js');
+
+    }
 
 
 
@@ -236,14 +236,14 @@ module.exports = function(grunt) {
 
     fileCont = beautify(fileCont, options.beautify);
 
-    grunt.file.write(options.root + '/'+ options.appName + '/allinone/' + entityData.moduleFileName, fileCont);
+    grunt.file.write(options.root + '/' + options.appName + '/allinone/' + entityData.moduleFileName, fileCont);
 
   };
 
 
 
   // copy from template
-  var _copyFromTemplate = function(template, folder, name, options,collection) {
+  var _copyFromTemplate = function(template, folder, name, options, collection) {
 
     var templateFunc = _.template(grunt.file.read('templates/' + template));
 
@@ -252,12 +252,12 @@ module.exports = function(grunt) {
       collection: collection
     });
 
-    if(template.indexOf('.js')> -1){
+    if (template.indexOf('.js') > -1) {
       fileCont = beautify(fileCont, options.beautify);
     }
-     
 
-    grunt.file.write(folder + '/' + name , fileCont);
+
+    grunt.file.write(folder + '/' + name, fileCont);
   };
 
 
@@ -272,8 +272,8 @@ module.exports = function(grunt) {
       collection: collection
     });
 
-    if(filenameWithExtension.indexOf('.js')> -1){
-     fileCont = beautify(fileCont, options.beautify);
+    if (filenameWithExtension.indexOf('.js') > -1) {
+      fileCont = beautify(fileCont, options.beautify);
     }
 
     grunt.file.write(folder + '/' + filenameWithExtension, fileCont);
@@ -293,7 +293,7 @@ module.exports = function(grunt) {
     entityData.modulePrefix = modulePrefix;
 
 
-    entityData.collectionInstanceName  = _s.camelize(modulePrefix);
+    entityData.collectionInstanceName = _s.camelize(modulePrefix);
 
 
 
