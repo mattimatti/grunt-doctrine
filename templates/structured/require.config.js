@@ -1,4 +1,4 @@
-require.config({
+  require.config({
   paths: {
     // Make vendor easier to access.
     "vendor": "../vendor",
@@ -19,8 +19,7 @@ require.config({
     "jquery": "../vendor/bower/jquery/jquery",
     "backbone": "../vendor/bower/backbone/backbone",
     "bootstrap": "../vendor/bower/bootstrap/dist/js/bootstrap",
-    "layoutmanager": "../vendor/bower/layoutmanager/backbone.layoutmanager",
-    "collectionCache": "../vendor/backbone.collectioncache"
+    "layoutmanager": "../vendor/bower/layoutmanager/backbone.layoutmanager"
   },
 
   shim: {
@@ -33,9 +32,6 @@ require.config({
       // This maps the global `Backbone` object to `require("backbone")`.
       exports: "Backbone"
     },
-
-    // Backbone.CollectionCache depends on Backbone.
-    "collectionCache": ["backbone"],
 
     // Twitter Bootstrap depends on jQuery.
     "bootstrap": ["jquery"]

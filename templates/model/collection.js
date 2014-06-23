@@ -20,7 +20,7 @@ define(function(require, exports, module) {
         },
 
         initialize: function() {
-          	logger.info('initialized');
+           // logger.debug(this.url);
         }
 
     });

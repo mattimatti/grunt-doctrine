@@ -12,45 +12,14 @@ define(function(require, exports, module) {
 
 
    // API endpoint.
-  app.api = "<%= options.baseuri %>";
+  app.api = "<%= options.api.baseuri %>";
 
 
-
-  // Useful defaults for GitHub Viewer.
-  _.extend(Backbone.Collection.prototype, {
-    cache: true,
-
-    initialize: function(models, options) {
-      // Automatically extend in passed options.
-      _.extend(this, options);
-
-      // Listen for request and sync events to control the `isRequest` flag.
-      this.on({
-        request: function() {
-          this.isRequest = true;
-        },
-
-        sync: function() {
-          this.isRequest = false;
-        }
-      });
-
-      // By default the collection is not in a request.
-      this.isRequest = false;
-    },
-
-    parse: function(obj) {
-      // Safety check ensuring only valid data is used.
-      if (obj.data.message !== "Not Found") {
-        return obj.data;
-      }
-
-      return this.models;
-    }
-  });  
-
+  // A model storage
+  app.dataModel = {};
 
 
   // The root path to run the application through.
   app.root = "/";
+
 });

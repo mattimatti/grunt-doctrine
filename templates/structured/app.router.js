@@ -3,6 +3,8 @@ define(function(require, exports, module) {
 
   var app = require("app");
 
+  var logger = require("lib/console");
+
 
   // Import the modules
   // Comment out the ones you don't want to initilaize
@@ -11,7 +13,6 @@ define(function(require, exports, module) {
           <% }); %> 
 
 
-  require("collectionCache");
   require("bootstrap");
 
 
@@ -22,7 +23,8 @@ define(function(require, exports, module) {
 
 
       <%  var count = collection.length; var index = 0;
-        _.each(collection, function(module) { %>this.<%= module.collectionInstanceName %>s = <%= module.moduleName %>Module.Collection();
+        _.each(collection, function(module) { %>
+          app.dataModel.<%= module.collectionInstanceName %> = new <%= module.moduleName %>Module.Collection();
           <% }); %> 
 
       // Use main layout and set Views.
@@ -31,6 +33,7 @@ define(function(require, exports, module) {
 
         template: require("ldsh!./templates/main"),
 
+        /*
         views: {
           ".users": new User.Views.List({
             collection: this.users
@@ -41,7 +44,7 @@ define(function(require, exports, module) {
           ".commits": new Commit.Views.List({
             collection: this.commits
           })
-        }
+        }*/
       });
 
       // Render to the page.
@@ -54,6 +57,7 @@ define(function(require, exports, module) {
     },
 
     index: function() {
+      console.debug('index');
       // Reset the state and render.
       this.reset();
     },
@@ -67,9 +71,15 @@ define(function(require, exports, module) {
     reset: function() {
       // Reset collections to initial state.
 
+
+      _.each(app.dataModel, function(collection){
+        console.debug(arguments);
+        collection.fetch();
+      });
+
       // Reset active model.
       app.active = false;
-      this.commits.repo = false;
+      //this.commits.repo = false;
     }
 
   });

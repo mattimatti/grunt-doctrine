@@ -11,7 +11,14 @@ define("kickstart", function(require) {
 
   // Trigger the initial route and enable HTML5 History API support, set the
   // root folder to '/' by default.  Change in app.js.
-  Backbone.history.start({ pushState: true, root: app.root });
+
+
+  <%  if(options.backbone.pushState) { %>
+      Backbone.history.start({ pushState: true, root: app.root });
+  <% }else{ %>
+      Backbone.history.start({ pushState: false });
+  <% } %>
+
 
   // All navigation that is relative should be passed through the navigate
   // method, to be processed by the router. If the link has a `data-bypass`

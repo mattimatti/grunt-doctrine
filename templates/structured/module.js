@@ -7,9 +7,9 @@ define(function(require, exports, module) {
 
     Views: {
       Item: require("./item/view"),
-      EditForm: require("./item/edit"),
-      CreateFrom: require("./item/create"),
-      List: require("./list/list")
+      EditForm: require("./edit/view"),
+      CreateFrom: require("./create/view"),
+      List: require("./list/view")
     }
   };
 });

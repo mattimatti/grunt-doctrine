@@ -27,14 +27,15 @@ module.exports = function(grunt) {
       root: 'tmp',
       defaultModuleName: 'ApplicationModule',
       separator: ',',
-      apigility: {
-        baseuri: 'http://beconcierge.local/v1',
+      api: {
+        baseuri: 'http://beconcierge.local/v1/',
       },
       backbone: {
         relational: false,
         form: true,
         layoutmanager: true,
-        modeldefaults: false
+        modeldefaults: false,
+        pushState: false
       },
       structured: {
         scaffold: true,
@@ -159,15 +160,15 @@ module.exports = function(grunt) {
 
 
      // Views
-    _createFromTemplate(entityData, 'structured/views/listview.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/list', 'list.js', options, allEntities);
+    _createFromTemplate(entityData, 'structured/views/listview.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/list', 'view.js', options, allEntities);
     _createFromTemplate(entityData, 'structured/views/listview.html', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/list', 'template.html', options, allEntities);
 
 
-    _createFromTemplate(entityData, 'structured/views/createform.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/create', 'create.js', options, allEntities);
+    _createFromTemplate(entityData, 'structured/views/createform.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/create', 'view.js', options, allEntities);
     _createFromTemplate(entityData, 'structured/views/createform.html', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/create', 'template.html', options, allEntities);
 
 
-    _createFromTemplate(entityData, 'structured/views/editform.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/edit', 'edit.js', options, allEntities);
+    _createFromTemplate(entityData, 'structured/views/editform.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/edit', 'view.js', options, allEntities);
     _createFromTemplate(entityData, 'structured/views/editform.html', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/edit', 'template.html', options, allEntities);
 
 
@@ -193,7 +194,7 @@ module.exports = function(grunt) {
       // A Backbone Boilerplate App
       _copyFromTemplate('structured/app.js', options.root + '/'+options.appName , 'app.js', options, allEntities);
       _copyFromTemplate('structured/main.js', options.root + '/'+options.appName, 'main.js', options, allEntities);
-      _copyFromTemplate('structured/require.config.js', options.root + '/'+options.appName, 'require.config.js', options, allEntities);
+      _copyFromTemplate('structured/require.config.js', options.root + '/'+options.appName, 'config.js', options, allEntities);
       _copyFromTemplate('structured/main.html', options.root + '/'+options.appName, 'templates/main.html', options, allEntities);
       _copyFromTemplate('structured/app.router.js', options.root + '/'+options.appName, 'router.js', options, allEntities);
 
@@ -209,6 +210,7 @@ module.exports = function(grunt) {
        _copyFromTemplate('structured/.gitignore', options.root, '.gitignore', options, allEntities);
        _copyFromTemplate('structured/package.json', options.root, 'package.json', options, allEntities);
        _copyFromTemplate('structured/bower.json', options.root, 'bower.json', options, allEntities);
+       _copyFromTemplate('structured/.bowerrc', options.root, '.bowerrc', options, allEntities);
 
 
        grunt.file.copy('templates/structured/GruntFile.js',options.root + '/Gruntfile.js' );
@@ -314,7 +316,7 @@ module.exports = function(grunt) {
     entityData.idAttribute = idAttribute;
 
 
-    if (options.apigility) {
+    if (options.api) {
       entityData.defaultUrl = modulePrefix;
     }
 

@@ -122,82 +122,8 @@ module.exports = function(grunt) {
 
         files: ["dist/source.min.js"]
       }
-    },
-
-    // Unit testing is provided by Karma.  Change the two commented locations
-    // below to either: mocha, jasmine, or qunit.
-    karma: {
-      options: {
-        basePath: process.cwd(),
-        singleRun: true,
-        captureTimeout: 7000,
-        autoWatch: true,
-
-        reporters: ["progress", "coverage"],
-        browsers: ["PhantomJS"],
-
-        // Change this to the framework you want to use.
-        frameworks: ["mocha"],
-
-        plugins: [
-          "karma-jasmine",
-          "karma-mocha",
-          "karma-qunit",
-          "karma-phantomjs-launcher",
-          "karma-coverage"
-        ],
-
-        preprocessors: {
-          "app/**/*.js": "coverage"
-        },
-
-        coverageReporter: {
-          type: "lcov",
-          dir: "test/coverage"
-        },
-
-        files: [
-          // You can optionally remove this or swap out for a different expect.
-          "vendor/bower/chai/chai.js",
-          "vendor/bower/requirejs/require.js",
-          "test/runner.js",
-
-          {
-            pattern: "app/**/*.*",
-            included: false
-          },
-          // Derives test framework from Karma configuration.
-          {
-            pattern: "test/<%= karma.options.frameworks[0] %>/**/*.spec.js",
-            included: false
-          }, {
-            pattern: "vendor/**/*.js",
-            included: false
-          }
-        ]
-      },
-
-      // This creates a server that will automatically run your tests when you
-      // save a file and display results in the terminal.
-      daemon: {
-        options: {
-          singleRun: false
-        }
-      },
-
-      // This is useful for running the tests just once.
-      run: {
-        options: {
-          singleRun: true
-        }
-      }
-    },
-
-    coveralls: {
-      options: {
-        coverage_dir: "test/coverage/PhantomJS 1.9.2 (Linux)/"
-      }
     }
+    
   });
 
   // Grunt contribution tasks.
@@ -207,9 +133,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-compress");
 
-  // Third-party tasks.
-  grunt.loadNpmTasks("grunt-karma");
-  grunt.loadNpmTasks("grunt-karma-coveralls");
+
   grunt.loadNpmTasks("grunt-processhtml");
 
   // Grunt BBB tasks.
@@ -218,7 +142,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-bbb-styles");
 
   // Create an aliased test task.
-  grunt.registerTask("test", ["karma:run"]);
+  //grunt.registerTask("test", ["karma:run"]);
 
   // When running the default Grunt command, just lint the code.
   grunt.registerTask("default", [
