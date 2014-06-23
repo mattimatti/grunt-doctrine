@@ -1,6 +1,6 @@
 /* Generated <%= moduleName %> Router */
 
-define(['app', 'backbone','model/<%= moduleName %>Model','model/<%= moduleName %>Col'], function(app, Backbone, <%= moduleName %>Model,, <%= moduleName %>Col) {
+define(['app', 'backbone','model/<%= moduleName %>Model','model/<%= moduleName %>Col'], function(app, Backbone, <%= moduleName %>Model, <%= moduleName %>Col) {
 
     var <%= moduleName %>Router = Backbone.Router.extend({
 

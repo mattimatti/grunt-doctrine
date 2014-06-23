@@ -10,6 +10,7 @@
 
 var xml2js = require('xml2js');
 var _ = require('underscore-contrib');
+var beautify = require('js-beautify').js_beautify;
 
 module.exports = function(grunt) {
 
@@ -23,9 +24,9 @@ module.exports = function(grunt) {
       mode: 'module',
       separator: ',',
       structured: {
-        all: false,
-        crud: true
-      }
+        scaffold: false
+      },
+      beautify : { indent_size: 2 }
     });
 
 
@@ -33,6 +34,10 @@ module.exports = function(grunt) {
     if (!_validateOptions(options)) {
       return;
     }
+
+
+    var allEntities = [];
+
 
     // Iterate over all specified file groups.
     this.filesSrc.forEach(function(file) {
@@ -56,11 +61,28 @@ module.exports = function(grunt) {
 
       var entityData = _parseJson(json);
 
+
+      // add as indexed
+      allEntities.push(entityData);
+
+
+
+    }); // end foreach
+
+
+
+    // Now all the model has been parsed
+    _.each(allEntities, function(entityData) {
+
+
       // build files
       switch (options.mode) {
 
         case 'structured':
-          _createStructured(entityData, options);
+          _createModels(allEntities, entityData, options);
+          if (options.structured.scaffold) {
+            _createStructured(allEntities, entityData, options);
+          }
           break;
 
         case 'module':
@@ -69,9 +91,8 @@ module.exports = function(grunt) {
 
       }
 
+    });
 
-
-    }); // end foreach
 
 
     // Print a success message.
@@ -82,52 +103,68 @@ module.exports = function(grunt) {
 
 
 
-  // Create a full module
-  var _createFullModule = function(entityData, options) {
+  var _createModels = function(allEntities, entityData, options) {
 
-    var template = _.template(grunt.file.read('templates/fullmodule.js'));
 
-    var fileCont = template(entityData);
+    //console.dir(entityData);
 
-    grunt.file.write(options.appname + '/allinone/' + entityData.moduleFileName, fileCont);
+    // ORM Base
+    _createFromTemplate(entityData, 'model/basemodel', 'doctrine/model', 'Base', options, allEntities);
+
+
+    // Model and collection
+    _createFromTemplate(entityData, 'model/model', 'modules/' + entityData.moduleName + '/model', 'Model', options, allEntities);
+    _createFromTemplate(entityData, 'model/collection', 'modules/' + entityData.moduleName + '/model', 'Col', options, allEntities);
 
   };
 
 
 
-  var _createStructured = function(entityData, options) {
-
-    // ORM Base
-    _createFromTemplate(entityData, 'basemodel', 'doctrine/model', 'Base', options);
+  var _createStructured = function(allEntities, entityData, options) {
 
 
-    // Model and collection
-    _createFromTemplate(entityData, 'model', 'model', 'Model', options);
-    _createFromTemplate(entityData, 'collection', 'model', 'Col', options);
+    // Router
+    _createFromTemplate(entityData, 'structured/router', 'modules/' + entityData.moduleName, 'Router', options, allEntities);
 
 
-     if (options.structured.crud) {
-      // Router
-      _createFromTemplate(entityData, 'router', 'router', 'Router', options);
-     }
+    _createFromTemplate(entityData, 'structured/views/listview', 'modules/' + entityData.moduleName + '/view', 'List', options, allEntities);
+    _createFromTemplate(entityData, 'structured/views/createform', 'modules/' + entityData.moduleName + '/view', 'Create', options, allEntities);
+    _createFromTemplate(entityData, 'structured/views/editform', 'modules/' + entityData.moduleName + '/view', 'Edit', options, allEntities);
 
-
-
-    // Module
-    _createFromTemplate(entityData, 'module', 'modules', 'Module', options);
 
 
     if (options.structured.all) {
 
+
+      // Module
+      _createFromTemplate(entityData, 'structured/module', 'modules/' + entityData.moduleName + '/', 'Module', options, allEntities);
+
       // Common Application stuff... Optional.
-      _copyFromTemplate('baserouter', 'doctrine/base', 'BaseRouter', options);
-      _copyFromTemplate('basecollection', 'doctrine/base', 'BaseCollection', options);
-      _copyFromTemplate('baseapp', '', 'app', options);
-      _copyFromTemplate('basemain', '', 'main', options);
-      _copyFromTemplate('modules', '', 'importmodules', options);
+      _copyFromTemplate('structured/baserouter', 'doctrine/base', 'BaseRouter', options, allEntities);
+      _copyFromTemplate('structured/basecollection', 'doctrine/base', 'BaseCollection', options, allEntities);
+      _copyFromTemplate('structured/baseapp', '', 'app', options);
+      _copyFromTemplate('structured/basemain', '', 'main', options);
+      _copyFromTemplate('structured/modules', '', 'importmodules', options);
+      _copyFromTemplate('structured/approuter', '', 'router', options);
+      _copyFromTemplate('structured/requireconfig', '', 'config', options);
     }
 
 
+
+  };
+
+
+
+  // Create a full module
+  var _createFullModule = function(allEntities, entityData, options) {
+
+    var template = _.template(grunt.file.read('templates/module/fullmodule.js'));
+
+    var fileCont = template(entityData);
+
+    fileCont = beautify(fileCont, options.beautify);
+
+    grunt.file.write(options.appname + '/allinone/' + entityData.moduleFileName, fileCont);
 
   };
 
@@ -145,11 +182,17 @@ module.exports = function(grunt) {
 
 
 
-  var _createFromTemplate = function(entityData, template, folder, suffix, options) {
+  var _createFromTemplate = function(entityData, template, folder, suffix, options, collection) {
 
     var templateFunc = _.template(grunt.file.read('templates/' + template + '.js'));
 
-    var fileCont = templateFunc(entityData);
+    var fileCont = templateFunc({
+      model: entityData,
+      options: options,
+      collection: collection
+    });
+
+    fileCont = beautify(fileCont, options.beautify);
 
     grunt.file.write(options.appname + '/' + folder + '/' + entityData.moduleName + suffix + '.js', fileCont);
   };
@@ -172,8 +215,7 @@ module.exports = function(grunt) {
     entityData.name = name;
 
     // get the modulename
-    var namearr = name.split('\\');
-    entityData.moduleName = namearr.reverse()[0];
+    entityData.moduleName = _removePHPNamespace(name);
 
     var idAttribute = _.getPath(entity, "id.name");
     entityData.idAttribute = idAttribute;
@@ -189,12 +231,72 @@ module.exports = function(grunt) {
 
 
     var fields = _.getPath(entity, "field");
-    entityData.fields = fields;
+    if (fields !== undefined) {
+      entityData.fields = (_.isArray(fields)) ? fields : [fields];
+    } else {
+      entityData.fields = [];
+    }
+
+
+
+    // Relations manyToOne
+    var HasOne = _.getPath(entity, "many-to-one");
+       
+
+    if (HasOne !== undefined) {
+       HasOne = (_.isArray(HasOne)) ? HasOne : [HasOne];
+      _.each(HasOne, function(elm) {
+        var theLinkedModel = _removePHPNamespace(_.getPath(elm, "target-entity"));
+        elm.LinkedModel = theLinkedModel+'Model';
+        elm.LinkedCol = theLinkedModel+'Col';
+
+        elm.isInversed = _.getPath(elm, "inversed-by")!== undefined;
+        elm.inversedBy = _.getPath(elm, "inversed-by");
+
+        elm.includeInJSON = 'id';
+
+      });
+      entityData.HasOne = HasOne;
+    } else {
+      entityData.HasOne = [];
+    }
+
+
+
+     // Relations oneTOMany
+    var HasMany = _.getPath(entity, "one-to-many");
+    
+    if (HasMany !== undefined) {
+      HasMany = (_.isArray(HasMany)) ? HasMany : [HasMany];
+      _.each(HasMany, function(elm) {
+        var theLinkedModel = _removePHPNamespace(_.getPath(elm, "target-entity"));
+        elm.LinkedModel = theLinkedModel+'Model';
+        elm.LinkedCol = theLinkedModel+'Col';
+
+        elm.isMapped = _.getPath(elm, "mapped-by")!== undefined;
+        elm.mappedBy = _.getPath(elm, "mapped-by");
+
+        elm.includeInJSON = 'id';
+
+      });
+      entityData.HasMany = HasMany;
+    } else {
+      entityData.HasMany = [];
+    }
 
 
     //console.dir(entityData);
 
     return entityData;
+  };
+
+
+  var _removePHPNamespace = function(name) {
+    if (name === undefined) {
+      return '';
+    }
+    var namearr = name.split('\\');
+    return namearr.reverse()[0];
   };
 
 
