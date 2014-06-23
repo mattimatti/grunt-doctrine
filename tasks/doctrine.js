@@ -25,11 +25,7 @@ module.exports = function(grunt) {
       mode: 'module',
       appName: 'app',
       root: 'tmp',
-      defaultModuleName: 'ApplicationModule',
-      separator: ',',
-      api: {
-        baseuri: 'http://beconcierge.local/v1/',
-      },
+      endpoint: 'http://beconcierge.local/v1/',
       backbone: {
         relational: false,
         form: true,

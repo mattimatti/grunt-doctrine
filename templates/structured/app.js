@@ -31,7 +31,7 @@ define(function(require, exports, module) {
 
 
    // API endpoint.
-  app.api = "<%= options.api.baseuri %>";
+  app.api = "<%= options.endpoint %>";
 
 
   // A model storage
