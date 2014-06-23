@@ -19,7 +19,10 @@
     "jquery": "../vendor/bower/jquery/jquery",
     "backbone": "../vendor/bower/backbone/backbone",
     "bootstrap": "../vendor/bower/bootstrap/dist/js/bootstrap",
-    "layoutmanager": "../vendor/bower/layoutmanager/backbone.layoutmanager"
+    "layoutmanager": "../vendor/bower/layoutmanager/backbone.layoutmanager",
+
+    "backbonefetchcache": "../vendor/backbone-fetch-cache/backbone.fetch-cache",
+   
   },
 
   shim: {

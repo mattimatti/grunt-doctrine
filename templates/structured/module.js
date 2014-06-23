@@ -4,6 +4,7 @@ define(function(require, exports, module) {
   module.exports = {
     Collection: require("./Collection"),
     Model: require("./Model"),
+    Router: require("./Router"),
 
     Views: {
       Item: require("./item/view"),

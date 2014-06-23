@@ -3,9 +3,21 @@ define(function(require, exports, module) {
 
   // External dependencies.
   var _ = require("lodash");
+  
   var $ = require("jquery");
+  
   var Backbone = require("backbone");
+  
   var Layout = require("layoutmanager");
+
+
+
+  // Installed with npm postinstall
+  var FetchCache = require("backbonefetchcache");
+  Backbone.fetchCache.localStorage = false;
+
+
+
 
   // Alias the module for easier identification.
   var app = module.exports;

@@ -18,14 +18,51 @@ define(function(require, exports, module) {
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
+
+    // holds the routers
+    routers : {},
+
+
     initialize: function() {
 
 
+      this.initSubrouters();
+
+      this.initModels();
+
+      this.initLayout();
+
+    },
+
+
+    // Initialize module routers
+    initSubrouters: function() {
+
+      // Reset routers collection
+      this.routers = {};
+
+      // Every module router
+      <%  var count = collection.length; var index = 0;
+        _.each(collection, function(module) { %>
+          this.routers.<%= module.collectionInstanceName %> = new <%= module.moduleName %>Module.Router();
+          <% }); %>
+
+    },
+
+
+    // Instance all model
+    initModels: function() {
 
       <%  var count = collection.length; var index = 0;
         _.each(collection, function(module) { %>
-          // app.dataModel.<%= module.collectionInstanceName %> = new <%= module.moduleName %>Module.Collection();
-          <% }); %> 
+           app.dataModel.<%= module.collectionInstanceName %> = new <%= module.moduleName %>Module.Collection();
+          <% }); %>
+
+    },
+
+
+    // initilaize the layout.
+    initLayout: function() {
 
       // Use main layout and set Views.
       var Layout = Backbone.Layout.extend({
@@ -51,6 +88,7 @@ define(function(require, exports, module) {
       new Layout().render();
     },
 
+
     routes: {
       "": "index",
 
@@ -73,8 +111,7 @@ define(function(require, exports, module) {
 
 
       _.each(app.dataModel, function(collection){
-        console.debug(arguments);
-        collection.fetch();
+        collection.fetch({cache: true});
       });
 
       // Reset active model.

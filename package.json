@@ -17,15 +17,16 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "grunt": "~0.4.2",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-contrib-nodeunit": "~0.3.0",
-    "grunt": "~0.4.2",
+    "grunt-git": "^0.2.14",
+    "js-beautify": "~1.5.1",
     "jshint-stylish": "~0.1.5",
     "load-grunt-tasks": "~0.3.0",
-    "xml2js": "~0.4.4",
-    "js-beautify": "~1.5.1",
-    "underscore.string": "~2.3.2"
+    "underscore.string": "~2.3.2",
+    "xml2js": "~0.4.4"
   },
   "scripts": {
     "test": "grunt test"

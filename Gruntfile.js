@@ -64,6 +64,9 @@ module.exports = function (grunt) {
 
   });
 
+
+  grunt.loadNpmTasks('grunt-git');
+
   // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');
 

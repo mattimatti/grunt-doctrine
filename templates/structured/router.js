@@ -1,12 +1,16 @@
 define(function(require, exports, module) {
     "use strict";
 
+    var app = require('app');
+
     var console = require('lib/console');
+    
+    var Backbone = require('backbone');
 
     var Router = Backbone.Router.extend({
 
         routes: {
-            'view/all': 'listItems',
+            '<%=model.modulePrefix %>/list': 'listItems',
             '<%=model.modulePrefix %>/create': 'createItem',
             '<%=model.modulePrefix %>/:id': 'viewItem'
         },

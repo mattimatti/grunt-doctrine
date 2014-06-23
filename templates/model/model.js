@@ -8,7 +8,7 @@ define(function(require, exports, module) {
 	var Model = BaseModel.extend({
 
 		initialize: function() {
-			logger.info('initialized',this.attributes);
+			
 		},
 
 		validate: function(attrs, options) {

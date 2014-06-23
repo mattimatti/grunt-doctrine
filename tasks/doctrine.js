@@ -34,7 +34,7 @@ module.exports = function(grunt) {
         relational: false,
         form: false,
         layoutmanager: true,
-        modeldefaults: false,
+        modeldefaults: true,
         pushState: false
       },
       structured: {
