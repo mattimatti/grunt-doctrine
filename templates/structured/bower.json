@@ -12,6 +12,7 @@
     "layoutmanager": "~0.9.4",
     "mocha": "~1.14.0",
     "chai": "~1.8.1",
-    "bootstrap": "~3.0.3"
+    "bootstrap": "~3.0.3",
+    "backbone-relational": "~0.8.8"
   }
 }

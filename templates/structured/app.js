@@ -10,11 +10,18 @@ define(function(require, exports, module) {
   
   var Layout = require("layoutmanager");
 
+  var Relational = require("backbone-relational");
 
 
+<%  if(options.backbone.fetchcache){ %>
   // Installed with npm postinstall
-  var FetchCache = require("backbonefetchcache");
-  Backbone.fetchCache.localStorage = false;
+  //var FetchCache = require("backbone-fetch-cache");
+
+  // Backbone.fetchCache.localStorage = false;
+  <% } %>
+
+
+
 
 
 

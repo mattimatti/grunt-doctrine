@@ -21,6 +21,6 @@
 
   "scripts": {
     "postinstall": "bower install -s",
-     "install": "git clone git://github.com/mrappleton/backbone-fetch-cache.git vendor/backbone-fetch-cache"
+     "install": "git clone git://github.com/mrappleton/backbone-fetch-cache.git vendor/backbone-fetch-cache && git clone git://github.com/PaulUithol/Backbone-relational.git vendor/backbone-relational"
   }
 }

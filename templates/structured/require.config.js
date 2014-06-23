@@ -21,7 +21,8 @@
     "bootstrap": "../vendor/bower/bootstrap/dist/js/bootstrap",
     "layoutmanager": "../vendor/bower/layoutmanager/backbone.layoutmanager",
 
-    "backbonefetchcache": "../vendor/backbone-fetch-cache/backbone.fetch-cache",
+    "backbone-fetch-cache": "../vendor/backbone-fetch-cache/backbone.fetch-cache",
+    "backbone-relational": "../vendor/bower/backbone-relational/backbone-relational",
    
   },
 

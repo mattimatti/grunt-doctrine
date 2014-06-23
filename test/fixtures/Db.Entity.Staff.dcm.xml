@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Db\Entity\Staff" table="staff">
+    <id name="staffId" type="integer" column="staff_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="username" type="string" column="username" length="255" nullable="false"/>
+    <field name="firstName" type="string" column="first_name" length="255" nullable="false"/>
+    <field name="lastName" type="string" column="last_name" length="255" nullable="false"/>
+    <field name="email" type="string" column="email" length="255" nullable="false"/>
+    <field name="businessPhone" type="string" column="business_phone" length="255" nullable="false"/>
+    <field name="mobilePhone" type="string" column="mobile_phone" length="255" nullable="false"/>
+    <field name="rate" type="integer" column="rate" nullable="false"/>
+    <field name="lastLogin" type="date" column="last_login" nullable="false"/>
+    <field name="numberOfLogins" type="integer" column="number_of_logins" nullable="false"/>
+    <field name="signupDate" type="date" column="signup_date" nullable="false"/>
+    <field name="street1" type="string" column="street_1" length="255" nullable="false"/>
+    <field name="street2" type="string" column="street_2" length="255" nullable="false"/>
+    <field name="city" type="string" column="city" length="255" nullable="false"/>
+    <field name="state" type="string" column="state" length="255" nullable="false"/>
+    <field name="country" type="string" column="country" length="255" nullable="false"/>
+    <field name="code" type="string" column="code" length="255" nullable="false"/>
+    <field name="officeId" type="integer" column="office_id" nullable="false"/>
+  </entity>
+</doctrine-mapping>

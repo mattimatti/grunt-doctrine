@@ -32,8 +32,9 @@ module.exports = function(grunt) {
       },
       backbone: {
         relational: false,
-        form: false,
+        form: true,
         layoutmanager: true,
+        fetchcache: false,
         modeldefaults: true,
         pushState: false
       },
@@ -141,7 +142,7 @@ module.exports = function(grunt) {
     //console.dir(options);
 
     // ORM Base
-    _createFromTemplate(entityData, 'model/basemodel.js', options.root + '/'+options.appName + '/doctrine/model', entityData.moduleName + 'Base.js', options, allEntities);
+    //_createFromTemplate(entityData, 'model/basemodel.js', options.root + '/'+options.appName + '/doctrine/model', entityData.moduleName + 'Base.js', options, allEntities);
 
 
     // Model and collection
@@ -343,8 +344,8 @@ module.exports = function(grunt) {
       HasOne = (_.isArray(HasOne)) ? HasOne : [HasOne];
       _.each(HasOne, function(elm) {
         var theLinkedModel = _removePHPNamespace(_.getPath(elm, "target-entity"));
-        elm.LinkedModel = theLinkedModel + 'Model';
-        elm.LinkedCol = theLinkedModel + 'Col';
+        elm.LinkedModel = 'modules/' + _s.underscored(theLinkedModel) + '/Model';
+        elm.LinkedCol = 'modules/' + _s.underscored(theLinkedModel) + '/Collection';
 
         elm.isInversed = _.getPath(elm, "inversed-by") !== undefined;
         elm.inversedBy = _.getPath(elm, "inversed-by");
@@ -366,8 +367,8 @@ module.exports = function(grunt) {
       HasMany = (_.isArray(HasMany)) ? HasMany : [HasMany];
       _.each(HasMany, function(elm) {
         var theLinkedModel = _removePHPNamespace(_.getPath(elm, "target-entity"));
-        elm.LinkedModel = theLinkedModel + 'Model';
-        elm.LinkedCol = theLinkedModel + 'Col';
+        elm.LinkedModel = 'modules/' + _s.underscored(theLinkedModel) + '/Model';
+        elm.LinkedCol = 'modules/' + _s.underscored(theLinkedModel) + '/Collection';
 
         elm.isMapped = _.getPath(elm, "mapped-by") !== undefined;
         elm.mappedBy = _.getPath(elm, "mapped-by");

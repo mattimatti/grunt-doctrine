@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Db\Entity\Expense" table="expense">
+    <indexes>
+      <index name="client_id" columns="client_id"/>
+      <index name="category_id" columns="category_id"/>
+    </indexes>
+    <id name="espensesId" type="integer" column="espenses_id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <many-to-one field="client" target-entity="Db\Entity\Client" fetch="LAZY">
+      <join-columns>
+        <join-column name="client_id" referenced-column-name="client_id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="category" target-entity="Db\Entity\Category" fetch="EAGER">
+      <join-columns>
+        <join-column name="category_id" referenced-column-name="category_id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>
