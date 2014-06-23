@@ -14,6 +14,10 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
+
+    pkg: grunt.file.readJSON('package.json'),
+
+
     jshint: {
       all: [
         'Gruntfile.js',
@@ -62,6 +66,7 @@ module.exports = function(grunt) {
       tests: ['test/*_test.js']
     },
 
+    // Bump version
     bump: {
       options: {
         files: ['package.json'],
@@ -73,7 +78,7 @@ module.exports = function(grunt) {
         tagName: 'v%VERSION%',
         tagMessage: 'Version %VERSION%',
         push: true,
-        pushTo: 'master',
+        pushTo: '<%=pkg.repository.url%>',
         gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
       }
     }
