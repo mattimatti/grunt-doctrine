@@ -1,6 +1,6 @@
 # grunt-doctrine
 
-> Grunt plugin to convert doctrine xml annotations into backbone models and collections. useful in conjunction with doctrine apigility. Has the option to scaffold a complete BBB crud application.
+> Grunt plugin to convert doctrine xml annotations into backbone models and collections. useful in conjunction with doctrine apigility. Includes option to scaffold a complete BBB crud application.
 
 ## Getting Started
 This plugin requires Grunt.
