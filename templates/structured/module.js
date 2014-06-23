@@ -1,15 +1,15 @@
-/*This includes or excludes all modules */
+define(function(require, exports, module) {
+  "use strict";
 
-define(['modules/<%= moduleName %>/model/<%= moduleName %>Model', 'modules/<%= moduleName %>/model/<%= moduleName %>Col', 'modules/<%= moduleName %>/<%= moduleName %>Router'], function( <%= moduleName %>Model, <%= moduleName %>Col, <%= moduleName %>Router) {
+  module.exports = {
+    Collection: require("./Collection"),
+    Model: require("./Model"),
 
-	var <%= moduleName %>Module = {
-
-		Model : <%= moduleName %>Model,
-		Collection : <%= moduleName %>Col,
-		router : new <%= moduleName %>Router
-
-	};
-
-
-	return <%= moduleName %>Module;
+    Views: {
+      Item: require("./item/view"),
+      EditForm: require("./item/edit"),
+      CreateFrom: require("./item/create"),
+      List: require("./list/list")
+    }
+  };
 });

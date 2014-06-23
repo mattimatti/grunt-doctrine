@@ -1,19 +1,30 @@
-/* Generated <%= model.moduleName %> Collection */
+define(function(require, exports, module) {
+  "use strict";
 
-define(['app', 'backbone','model/<%= model.moduleName %>Model'], function(app, Backbone, <%= model.moduleName %>Model) {
+    var app = require("app");
 
-    var <%= model.moduleName %>Col = Backbone.Collection.extend({
+    var Backbone =  require("backbone");
 
-        url: "<%= model.defaultUrl %>",
+	var logger = require("lib/console");
 
-        model: <%= model.moduleName %>Model ,
+    var Model = require("./Model");
+
+    var Collection = Backbone.Collection.extend({
+
+        url: app.api + '<%= model.defaultUrl %>',
+
+        model: Model ,
 
         comparator: function(o1, o2) {
             //return o1.get('title' ) > o2.get('title');
+        },
+
+        initialize: function() {
+          	logger.info('initialized');
         }
 
     });
 
+    module.exports = Collection;
 
-    return <%= model.moduleName %>Col ;
 });

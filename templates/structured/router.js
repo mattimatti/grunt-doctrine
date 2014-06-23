@@ -1,24 +1,27 @@
-/* Generated <%= moduleName %> Router */
+define(function(require, exports, module) {
+    "use strict";
 
-define(['app', 'backbone','model/<%= moduleName %>Model','model/<%= moduleName %>Col'], function(app, Backbone, <%= moduleName %>Model, <%= moduleName %>Col) {
+    var console = require('lib/console');
 
-    var <%= moduleName %>Router = Backbone.Router.extend({
+    var Router = Backbone.Router.extend({
 
-		 routes: {
-            'view/all':'listItems',
-            '<%=modulePrefix %>/create':'createItem',
-            '<%=modulePrefix %>/:id': 'viewItem'
+        routes: {
+            'view/all': 'listItems',
+            '<%=model.modulePrefix %>/create': 'createItem',
+            '<%=model.modulePrefix %>/:id': 'viewItem'
         },
 
 
 
-		/**
-         * url update causes to show all <%=modulePrefix %>
+        /**
+         * url update causes to show all <%=model.modulePrefix %>
          */
-        listItems:function(){
-          this.cached = { state:'<%=modulePrefix %>:viewall' };
+        listItems: function() {
+            this.cached = {
+                state: '<%=model.modulePrefix %>:viewall'
+            };
 
-          app.trigger( 'recipe:viewall' );
+            app.trigger('recipe:viewall');
         },
 
 
@@ -27,26 +30,30 @@ define(['app', 'backbone','model/<%= moduleName %>Model','model/<%= moduleName %
          * url update causes to edit one recipe
          * @param id
          */
-        viewItem: function (id) {
-            this.cached = { state:'<%=modulePrefix %>:edit', id:id };
-            app.trigger('<%=modulePrefix %>:edit', id );
+        viewItem: function(id) {
+            this.cached = {
+                state: '<%=model.modulePrefix %>:edit',
+                id: id
+            };
+            app.trigger('<%=model.modulePrefix %>:edit', id);
         },
-
 
 
 
         /**
          * url update cause to create a new recipe
          */
-        createItem:function(){
-            this.cached = { state:'<%=modulePrefix %>:create' };
-            app.trigger( '<%=modulePrefix %>:create' );
+        createItem: function() {
+            this.cached = {
+                state: '<%=model.modulePrefix %>:create'
+            };
+            app.trigger('<%=model.modulePrefix %>:create');
         }
 
-        
+
 
     });
 
 
-    return <%=moduleName %>Router;
+    module.exports = Router;
 });

@@ -20,6 +20,11 @@ module.exports = function (grunt) {
         'tasks/*.js',
         '<%= nodeunit.tests %>'
       ],
+      generated: [
+        'Gruntfile.js',
+        'tmp/**/*.js',
+        '<%= nodeunit.tests %>'
+      ],
       options: {
         jshintrc: '.jshintrc',
         reporter: require('jshint-stylish')
@@ -37,14 +42,16 @@ module.exports = function (grunt) {
       module: {
         options: {
           mode: 'module',
-          appname: 'tmp/app'
+          appName: 'app',
+          root: 'tmp'
         },
         src:['test/fixtures/**/*.xml']
       },
       structured: {
         options: {
           mode: 'structured',
-          appname: 'tmp/app'
+          appName: 'app',
+          root: 'tmp'
         },
         src: ['test/fixtures/**/*.xml']
       }
@@ -65,6 +72,6 @@ module.exports = function (grunt) {
   grunt.registerTask('test', ['clean', 'doctrine', 'nodeunit']);
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['jshint', 'test']);
+  grunt.registerTask('default', ['jshint:all', 'test','jshint:generated']);
 
 };

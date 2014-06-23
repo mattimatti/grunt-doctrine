@@ -1,19 +1,21 @@
-/* Generated <%= model.moduleName %> Model. Override this model with your custom code.*/
+define(function(require, exports, module) {
+	"use strict";
 
-define(['app', 'doctrine/model/<%= model.moduleName %>Base'], function(app, <%= model.moduleName %>Base) {
+	var logger = require('lib/console');
+	var app = require('app');
+	var BaseModel = require('doctrine/model/<%= model.moduleName %>Base');
 
-	var <%= model.moduleName %>Model = <%= model.moduleName %>Base.extend({
+	var Model = BaseModel.extend({
 
 		initialize: function() {
-
+			logger.info('initialized');
 		},
 
 		validate: function(attrs, options) {
-
 
 		}
 
 	});
 
-	return <%=model.moduleName %>Model;
+	module.exports = Model;
 });

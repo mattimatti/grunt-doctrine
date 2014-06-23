@@ -2,12 +2,45 @@
 
 define(['app', 'backbone'], function(app, Backbone) {
 
-	var <%= model.moduleName %>Base = Backbone.RelationalModel.extend({
 
-		url: "<%= model.defaultUrl %>",
+	<%  if(options.backbone.relational){ %>
+	var <%= model.moduleName %>Base = Backbone.RelationalModel.extend({
+	<% }else{ %>
+	var <%= model.moduleName %>Base = Backbone.Model.extend({
+	<% } %>
+
+
+
+		// ********* Backbone.Model **************
+
+
+		idAttribute: '<%= model.idAttribute %>',
+
+
+
+		<%  if(options.backbone.modeldefaults){ %>
+
+		defaults: {
+			<%  var count = model.fields.length; var index = 0;
+				_.each(model.fields, function(field) { %>  
+					<%= field.name %>: ''<% if(++index !== count ){ %>,<% }; %>  
+			<% }); %>  
+		},
+
+		<% } %>
+
+
+
+
+
+
+		<%  if(options.backbone.relational){ %>
 
 		<%  var count = model.HasOne.length + model.HasMany.length; var index = 0;%>
 		<%  var useBoth = count > model.HasOne.length; %>
+
+
+		// ********* Backbone.Relational **************
 
 		relations: [
 					<%  _.each(model.HasOne, function(relation) { 
@@ -45,16 +78,43 @@ define(['app', 'backbone'], function(app, Backbone) {
 						}<% if(++index !== count ){ %>,<% }; %>  
 					<% }); %>
 		],
+		<% } %>
 
-		idAttribute: '<%= model.idAttribute %>',
+		<%  if(options.backboneForm){ %>
 
 
-		defaults: {
-			<%  var count = model.fields.length; var index = 0;
-				_.each(model.fields, function(field) { %>  
-					<%= field.name %>: ''<% if(++index !== count ){ %>,<% }; %>  
-			<% }); %>  
-		}
+		// ********* Backbone.Form **************
+
+
+		 template: _.template($('#formTemplate').html()),
+
+		/**
+			title:      { type: 'Select', options: ['Mr', 'Mrs', 'Ms'] },
+	        name:       'Text',
+	        email:      { validators: ['required', 'email'] },
+	        birthday:   'Date',
+	        password:   'Password',
+	        address:    { type: 'NestedModel', model: Address },
+	        notes:      { type: 'List', itemType: 'Text' }
+		*/
+
+		 schema: {
+
+		 		<%  var count = model.fields.length; var index = 0;
+					_.each(model.fields, function(field) { %>  
+						<%= field.name %>: 'Text'<% if(++index !== count ){ %>,<% }; %>  
+				<% }); %>  
+
+
+
+		 },
+
+		<% } %>
+
+
+		// Last generated property
+		url: '<%= model.defaultUrl %>'
+
 
 	});
 

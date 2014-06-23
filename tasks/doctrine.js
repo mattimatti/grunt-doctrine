@@ -10,6 +10,7 @@
 
 var xml2js = require('xml2js');
 var _ = require('underscore-contrib');
+var _s = require('underscore.string');
 var beautify = require('js-beautify').js_beautify;
 
 module.exports = function(grunt) {
@@ -22,11 +23,41 @@ module.exports = function(grunt) {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
       mode: 'module',
+      appName: 'app',
+      root: 'tmp',
+      defaultModuleName: 'ApplicationModule',
       separator: ',',
-      structured: {
-        scaffold: false
+      apigility: {
+        baseuri: 'http://beconcierge.local/v1',
       },
-      beautify : { indent_size: 2 }
+      backbone: {
+        relational: false,
+        form: true,
+        layoutmanager: true,
+        modeldefaults: false
+      },
+      structured: {
+        scaffold: true,
+        app: true,
+        tests : true
+      },
+      beautify: {
+        "indent_size": 4,
+        "indent_char": " ",
+        "indent_level": 0,
+        "indent_with_tabs": false,
+        "preserve_newlines": true,
+        "max_preserve_newlines": 2,
+        "jslint_happy": false,
+        "brace_style": "collapse",
+        "keep_array_indentation": false,
+        "keep_function_indentation": false,
+        "space_before_conditional": true,
+        "break_chained_methods": false,
+        "eval_code": false,
+        "unescape_strings": false,
+        "wrap_line_length": 0
+      }
     });
 
 
@@ -59,7 +90,7 @@ module.exports = function(grunt) {
 
       // parse entitydata
 
-      var entityData = _parseJson(json);
+      var entityData = _parseJson(json, options);
 
 
       // add as indexed
@@ -106,15 +137,15 @@ module.exports = function(grunt) {
   var _createModels = function(allEntities, entityData, options) {
 
 
-    //console.dir(entityData);
+    //console.dir(options);
 
     // ORM Base
-    _createFromTemplate(entityData, 'model/basemodel', 'doctrine/model', 'Base', options, allEntities);
+    _createFromTemplate(entityData, 'model/basemodel.js', options.root + '/'+options.appName + '/doctrine/model', entityData.moduleName + 'Base.js', options, allEntities);
 
 
     // Model and collection
-    _createFromTemplate(entityData, 'model/model', 'modules/' + entityData.moduleName + '/model', 'Model', options, allEntities);
-    _createFromTemplate(entityData, 'model/collection', 'modules/' + entityData.moduleName + '/model', 'Col', options, allEntities);
+    _createFromTemplate(entityData, 'model/model.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix , 'Model.js', options, allEntities);
+    _createFromTemplate(entityData, 'model/collection.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix , 'Collection.js', options, allEntities);
 
   };
 
@@ -124,30 +155,78 @@ module.exports = function(grunt) {
 
 
     // Router
-    _createFromTemplate(entityData, 'structured/router', 'modules/' + entityData.moduleName, 'Router', options, allEntities);
+    _createFromTemplate(entityData, 'structured/router.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix, 'Router.js', options, allEntities);
 
 
-    _createFromTemplate(entityData, 'structured/views/listview', 'modules/' + entityData.moduleName + '/view', 'List', options, allEntities);
-    _createFromTemplate(entityData, 'structured/views/createform', 'modules/' + entityData.moduleName + '/view', 'Create', options, allEntities);
-    _createFromTemplate(entityData, 'structured/views/editform', 'modules/' + entityData.moduleName + '/view', 'Edit', options, allEntities);
+     // Views
+    _createFromTemplate(entityData, 'structured/views/listview.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/list', 'list.js', options, allEntities);
+    _createFromTemplate(entityData, 'structured/views/listview.html', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/list', 'template.html', options, allEntities);
+
+
+    _createFromTemplate(entityData, 'structured/views/createform.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/create', 'create.js', options, allEntities);
+    _createFromTemplate(entityData, 'structured/views/createform.html', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/create', 'template.html', options, allEntities);
+
+
+    _createFromTemplate(entityData, 'structured/views/editform.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/edit', 'edit.js', options, allEntities);
+    _createFromTemplate(entityData, 'structured/views/editform.html', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/edit', 'template.html', options, allEntities);
+
+
+    _createFromTemplate(entityData, 'structured/views/item.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/item', 'view.js', options, allEntities);
+    _createFromTemplate(entityData, 'structured/views/item.html', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/item', 'template.html', options, allEntities);
 
 
 
-    if (options.structured.all) {
+    // Module
+    _createFromTemplate(entityData, 'structured/module.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/', 'Module.js', options, allEntities);
+
+    if (options.structured.app) {
 
 
-      // Module
-      _createFromTemplate(entityData, 'structured/module', 'modules/' + entityData.moduleName + '/', 'Module', options, allEntities);
+      // Some lib classes
+     // _copyFromTemplate('structured/lib/baserouter.js', options.root + '/'+options.appName + '/lib', 'BaseRouter.js', options, allEntities);
+     // _copyFromTemplate('structured/lib/basecollection.js', options.root + '/'+options.appName + '/lib', 'BaseCollection.js', options, allEntities);
+      _copyFromTemplate('structured/lib/console.js', options.root + '/'+options.appName + '/lib', 'console.js', options, allEntities);
 
-      // Common Application stuff... Optional.
-      _copyFromTemplate('structured/baserouter', 'doctrine/base', 'BaseRouter', options, allEntities);
-      _copyFromTemplate('structured/basecollection', 'doctrine/base', 'BaseCollection', options, allEntities);
-      _copyFromTemplate('structured/baseapp', '', 'app', options);
-      _copyFromTemplate('structured/basemain', '', 'main', options);
-      _copyFromTemplate('structured/modules', '', 'importmodules', options);
-      _copyFromTemplate('structured/approuter', '', 'router', options);
-      _copyFromTemplate('structured/requireconfig', '', 'config', options);
+
+
+
+      // A Backbone Boilerplate App
+      _copyFromTemplate('structured/app.js', options.root + '/'+options.appName , 'app.js', options, allEntities);
+      _copyFromTemplate('structured/main.js', options.root + '/'+options.appName, 'main.js', options, allEntities);
+      _copyFromTemplate('structured/require.config.js', options.root + '/'+options.appName, 'require.config.js', options, allEntities);
+      _copyFromTemplate('structured/main.html', options.root + '/'+options.appName, 'templates/main.html', options, allEntities);
+      _copyFromTemplate('structured/app.router.js', options.root + '/'+options.appName, 'router.js', options, allEntities);
+
+
+      // Css
+      _copyFromTemplate('structured/css/index.css', options.root + '/'+options.appName , 'styles/index.css', options, allEntities);
+      _copyFromTemplate('structured/css/app.styl', options.root + '/'+options.appName , 'styles/app.styl', options, allEntities);
+
+
+
+      // Builder
+       _copyFromTemplate('structured/.gitkeep', options.root + '/'+ 'vendor', '.gitkeep', options, allEntities);
+       _copyFromTemplate('structured/.gitignore', options.root, '.gitignore', options, allEntities);
+       _copyFromTemplate('structured/package.json', options.root, 'package.json', options, allEntities);
+       _copyFromTemplate('structured/bower.json', options.root, 'bower.json', options, allEntities);
+
+
+       grunt.file.copy('templates/structured/GruntFile.js',options.root + '/Gruntfile.js' );
+       grunt.file.copy('templates/structured/index.html',options.root + '/index.html' );
+      
+     
     }
+
+
+     if (options.structured.tests) {
+
+        grunt.file.copy('templates/structured/test/runner.js',options.root + '/test/runner.js' );
+        grunt.file.copy('templates/structured/test/runner.js',options.root + '/test/jasmine/specs/example.spec.js' );
+        grunt.file.copy('templates/structured/test/runner.js',options.root + '/test/qunit/specs/example.spec.js' );
+        grunt.file.copy('templates/structured/test/runner.js',options.root + '/test/mocha/specs/example.spec.js' );
+        grunt.file.copy('templates/structured/test/runner.js',options.root + '/test/runner.js' );
+
+     }
 
 
 
@@ -164,27 +243,35 @@ module.exports = function(grunt) {
 
     fileCont = beautify(fileCont, options.beautify);
 
-    grunt.file.write(options.appname + '/allinone/' + entityData.moduleFileName, fileCont);
+    grunt.file.write(options.root + '/'+ options.appName + '/allinone/' + entityData.moduleFileName, fileCont);
 
   };
 
 
 
   // copy from template
-  var _copyFromTemplate = function(template, folder, name, options) {
+  var _copyFromTemplate = function(template, folder, name, options,collection) {
 
-    var templateFunc = _.template(grunt.file.read('templates/' + template + '.js'));
+    var templateFunc = _.template(grunt.file.read('templates/' + template));
 
-    var fileCont = templateFunc(options);
+    var fileCont = templateFunc({
+      options: options,
+      collection: collection
+    });
 
-    grunt.file.write(options.appname + '/' + folder + '/' + name + '.js', fileCont);
+    if(template.indexOf('.js')> -1){
+      fileCont = beautify(fileCont, options.beautify);
+    }
+     
+
+    grunt.file.write(folder + '/' + name , fileCont);
   };
 
 
 
-  var _createFromTemplate = function(entityData, template, folder, suffix, options, collection) {
+  var _createFromTemplate = function(entityData, template, folder, filenameWithExtension, options, collection) {
 
-    var templateFunc = _.template(grunt.file.read('templates/' + template + '.js'));
+    var templateFunc = _.template(grunt.file.read('templates/' + template));
 
     var fileCont = templateFunc({
       model: entityData,
@@ -192,14 +279,16 @@ module.exports = function(grunt) {
       collection: collection
     });
 
-    fileCont = beautify(fileCont, options.beautify);
+    if(filenameWithExtension.indexOf('.js')> -1){
+     fileCont = beautify(fileCont, options.beautify);
+    }
 
-    grunt.file.write(options.appname + '/' + folder + '/' + entityData.moduleName + suffix + '.js', fileCont);
+    grunt.file.write(folder + '/' + filenameWithExtension, fileCont);
   };
 
 
 
-  var _parseJson = function(jsonData) {
+  var _parseJson = function(jsonData, options) {
 
     var entityData = {};
 
@@ -209,6 +298,10 @@ module.exports = function(grunt) {
     // the table
     var modulePrefix = _.getPath(entity, "table");
     entityData.modulePrefix = modulePrefix;
+
+
+    entityData.collectionInstanceName  = _s.camelize(modulePrefix);
+
 
 
     var name = _.getPath(entity, "name");
@@ -221,8 +314,9 @@ module.exports = function(grunt) {
     entityData.idAttribute = idAttribute;
 
 
-
-    entityData.defaultUrl = "api/" + modulePrefix;
+    if (options.apigility) {
+      entityData.defaultUrl = modulePrefix;
+    }
 
 
 
@@ -241,16 +335,16 @@ module.exports = function(grunt) {
 
     // Relations manyToOne
     var HasOne = _.getPath(entity, "many-to-one");
-       
+
 
     if (HasOne !== undefined) {
-       HasOne = (_.isArray(HasOne)) ? HasOne : [HasOne];
+      HasOne = (_.isArray(HasOne)) ? HasOne : [HasOne];
       _.each(HasOne, function(elm) {
         var theLinkedModel = _removePHPNamespace(_.getPath(elm, "target-entity"));
-        elm.LinkedModel = theLinkedModel+'Model';
-        elm.LinkedCol = theLinkedModel+'Col';
+        elm.LinkedModel = theLinkedModel + 'Model';
+        elm.LinkedCol = theLinkedModel + 'Col';
 
-        elm.isInversed = _.getPath(elm, "inversed-by")!== undefined;
+        elm.isInversed = _.getPath(elm, "inversed-by") !== undefined;
         elm.inversedBy = _.getPath(elm, "inversed-by");
 
         elm.includeInJSON = 'id';
@@ -263,17 +357,17 @@ module.exports = function(grunt) {
 
 
 
-     // Relations oneTOMany
+    // Relations oneTOMany
     var HasMany = _.getPath(entity, "one-to-many");
-    
+
     if (HasMany !== undefined) {
       HasMany = (_.isArray(HasMany)) ? HasMany : [HasMany];
       _.each(HasMany, function(elm) {
         var theLinkedModel = _removePHPNamespace(_.getPath(elm, "target-entity"));
-        elm.LinkedModel = theLinkedModel+'Model';
-        elm.LinkedCol = theLinkedModel+'Col';
+        elm.LinkedModel = theLinkedModel + 'Model';
+        elm.LinkedCol = theLinkedModel + 'Col';
 
-        elm.isMapped = _.getPath(elm, "mapped-by")!== undefined;
+        elm.isMapped = _.getPath(elm, "mapped-by") !== undefined;
         elm.mappedBy = _.getPath(elm, "mapped-by");
 
         elm.includeInJSON = 'id';
@@ -306,7 +400,7 @@ module.exports = function(grunt) {
     if (options.mode === null) {
       optionErrors.push("Missing mode. Please specify module or structured");
     }
-    if (options.appname === null) {
+    if (options.appName === null) {
       optionErrors.push("Missing appname. Please specify a name for the application");
     }
 
