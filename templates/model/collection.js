@@ -15,9 +15,9 @@ define(function(require, exports, module) {
 
         model: Model ,
 
-        comparator: function(o1, o2) {
+       // comparator: function(o1, o2) {
             //return o1.get('title' ) > o2.get('title');
-        },
+       // },
 
         initialize: function() {
            // logger.debug(this.url);

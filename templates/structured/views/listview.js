@@ -14,6 +14,11 @@ define(function(require, exports, module) {
 
 		manage: true,
 
+		el: false,
+		
+
+		template: require(["ldsh!./template"]),
+
 
 		beforeRender: function() {
 
@@ -40,7 +45,6 @@ define(function(require, exports, module) {
 
 		/************ Backbone.View *****************/
 
-		template: require("ldsh!./template"),
 
 		events: {
       		click: "sayHello"

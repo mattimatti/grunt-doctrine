@@ -1,6 +1,6 @@
 /*
  * grunt-doctrine
- * 
+ *
  *
  * Copyright (c) 2014 mattimatti
  * Licensed under the MIT license.
@@ -8,7 +8,7 @@
 
 'use strict';
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
   // load all npm grunt tasks
   require('load-grunt-tasks')(grunt);
 
@@ -33,7 +33,7 @@ module.exports = function (grunt) {
 
     // Before generating any new files, remove any previously-created files.
     clean: {
-      tests: ['tmp','modules','model','app']
+      tests: ['tmp', 'modules', 'model', 'app']
     },
 
     // Configuration to be run (and then tested).
@@ -45,7 +45,7 @@ module.exports = function (grunt) {
           appName: 'app',
           root: 'tmp'
         },
-        src:['test/fixtures/**/*.xml']
+        src: ['test/fixtures/**/*.xml']
       },
       structured: {
         options: {
@@ -60,12 +60,29 @@ module.exports = function (grunt) {
     // Unit tests.
     nodeunit: {
       tests: ['test/*_test.js']
+    },
+
+    bump: {
+      options: {
+        files: ['package.json'],
+        updateConfigs: [],
+        commit: true,
+        commitMessage: 'Release v%VERSION%',
+        commitFiles: ['package.json'],
+        createTag: true,
+        tagName: 'v%VERSION%',
+        tagMessage: 'Version %VERSION%',
+        push: true,
+        pushTo: 'master',
+        gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
+      }
     }
 
   });
 
 
   grunt.loadNpmTasks('grunt-git');
+  grunt.loadNpmTasks('grunt-bump');
 
   // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');
@@ -75,6 +92,6 @@ module.exports = function (grunt) {
   grunt.registerTask('test', ['clean', 'doctrine', 'nodeunit']);
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['jshint:all', 'test','jshint:generated']);
+  grunt.registerTask('default', ['jshint:all', 'test', 'jshint:generated']);
 
 };

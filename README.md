@@ -69,11 +69,13 @@ Default value: `'{}'`
 
 Options for the backbone modules to use
 
+
 #### options.backbone.relational
 Type: `Boolean`
 Default value: `'false'`
 
 Use Backbone.Relational
+
 
 #### options.backbone.fetchcache
 Type: `Boolean`
@@ -81,11 +83,13 @@ Default value: `'false'`
 
 Use Backbone.Fetch cache plugin to cache resources?
 
+
 #### options.backbone.modeldefaults
 Type: `Boolean`
 Default value: `'false'`
 
 Declare defaults in models?
+
 
 #### options.backbone.pushState
 Type: `Boolean`

@@ -15,13 +15,7 @@ define(function(require, exports, module) {
 	var Model = Backbone.Model.extend({
 	<% } %>
 
-
-	// ********* Backbone.Model **************
-
-
 		idAttribute: '<%= model.idAttribute %>',
-
-
 
 		<%  if(options.backbone.modeldefaults){ %>
 
@@ -32,8 +26,7 @@ define(function(require, exports, module) {
 		<% } %>
 
 
-		// Last generated property
-		url: '<%= model.defaultUrl %>',
+		url: app.api + '<%= model.defaultUrl %>',
 
 
 		initialize: function() {
@@ -45,9 +38,6 @@ define(function(require, exports, module) {
 
 		<%  var count = model.HasOne.length + model.HasMany.length; var index = 0;%>
 		<%  var useBoth = count > model.HasOne.length; %>
-
-
-		// ********* Backbone.Relational **************
 
 		relations: [
 					<%  _.each(model.HasOne, function(relation) { 

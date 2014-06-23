@@ -22,22 +22,21 @@ module.exports = function(grunt) {
 
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
-      mode: 'module',
+      mode: 'modular',
       appName: 'app',
       root: 'tmp',
       endpoint: 'http://beconcierge.local/v1/',
       backbone: {
         relational: false,
-        form: true,
+        form: false,
         layoutmanager: true,
         fetchcache: false,
-        modeldefaults: true,
+        modeldefaults: false,
         pushState: false
       },
-      structured: {
+      modular: {
         scaffold: true,
-        app: true,
-        tests : true
+        tests : false
       },
       beautify: {
         "indent_size": 4,
@@ -109,7 +108,7 @@ module.exports = function(grunt) {
 
         case 'structured':
           _createModels(allEntities, entityData, options);
-          if (options.structured.scaffold) {
+          if (options.modular.scaffold) {
             _createStructured(allEntities, entityData, options);
           }
           break;
@@ -177,8 +176,6 @@ module.exports = function(grunt) {
     // Module
     _createFromTemplate(entityData, 'structured/module.js', options.root + '/'+options.appName + '/modules/' + entityData.modulePrefix + '/', 'Module.js', options, allEntities);
 
-    if (options.structured.app) {
-
 
       // Some lib classes
      // _copyFromTemplate('structured/lib/baserouter.js', options.root + '/'+options.appName + '/lib', 'BaseRouter.js', options, allEntities);
@@ -213,11 +210,8 @@ module.exports = function(grunt) {
        grunt.file.copy('templates/structured/GruntFile.js',options.root + '/Gruntfile.js' );
        grunt.file.copy('templates/structured/index.html',options.root + '/index.html' );
       
-     
-    }
 
-
-     if (options.structured.tests) {
+     if (options.modular.tests) {
 
         grunt.file.copy('templates/structured/test/runner.js',options.root + '/test/runner.js' );
         grunt.file.copy('templates/structured/test/runner.js',options.root + '/test/jasmine/specs/example.spec.js' );
@@ -313,10 +307,7 @@ module.exports = function(grunt) {
     entityData.idAttribute = idAttribute;
 
 
-    if (options.api) {
-      entityData.defaultUrl = modulePrefix;
-    }
-
+    entityData.defaultUrl = modulePrefix;
 
 
     entityData.moduleFileName = 'modules/' + modulePrefix + '.js';
