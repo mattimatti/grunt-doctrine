@@ -80,7 +80,7 @@ define(['app', 'backbone'], function(app, Backbone) {
 		],
 		<% } %>
 
-		<%  if(options.backboneForm){ %>
+		<%  if(options.backbone.form){ %>
 
 
 		// ********* Backbone.Form **************

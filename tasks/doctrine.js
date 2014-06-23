@@ -32,7 +32,7 @@ module.exports = function(grunt) {
       },
       backbone: {
         relational: false,
-        form: true,
+        form: false,
         layoutmanager: true,
         modeldefaults: false,
         pushState: false

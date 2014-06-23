@@ -24,7 +24,7 @@ define(function(require, exports, module) {
 
       <%  var count = collection.length; var index = 0;
         _.each(collection, function(module) { %>
-          app.dataModel.<%= module.collectionInstanceName %> = new <%= module.moduleName %>Module.Collection();
+          // app.dataModel.<%= module.collectionInstanceName %> = new <%= module.moduleName %>Module.Collection();
           <% }); %> 
 
       // Use main layout and set Views.
