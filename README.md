@@ -63,6 +63,18 @@ Default value: `'{}'`
 The api endpoint
 
 
+#### options.backbone
+Type: `Object`
+Default value: `'{}'`
+
+Options for the backbone modules to use
+
+#### options.backbone.relational
+Type: `Boolean`
+Default value: `'false'`
+
+Use Backbone.Relational
+
 
 
 ### Usage Examples
