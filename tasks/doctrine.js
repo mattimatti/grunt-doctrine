@@ -189,7 +189,7 @@ module.exports = function(grunt) {
     _copyFromTemplate('bbb/app.js', options.root + '/' + options.appName, 'app.js', options, allEntities);
     _copyFromTemplate('bbb/main.js', options.root + '/' + options.appName, 'main.js', options, allEntities);
     _copyFromTemplate('bbb/require.config.js', options.root + '/' + options.appName, 'config.js', options, allEntities);
-    _copyFromTemplate('bbb/main.html', options.root + '/' + options.appName, 'templates/main.html', options, allEntities);
+    _copyFromTemplate('bbb/templates/main.html', options.root + '/' + options.appName, 'templates/main.html', options, allEntities);
     _copyFromTemplate('bbb/app.router.js', options.root + '/' + options.appName, 'router.js', options, allEntities);
 
 
@@ -393,7 +393,12 @@ module.exports = function(grunt) {
     if (options.appName === null) {
       optionErrors.push("Missing appname. Please specify a name for the application");
     }
-
+    if (options.root === null || options.endpoint === '') {
+      optionErrors.push("Missing root");
+    }
+    if (options.endpoint === null || options.endpoint === '') {
+      optionErrors.push("Missing endpoint");
+    }
 
 
     return optionErrors.length === 0;
