@@ -3,6 +3,8 @@ define(function(require, exports, module) {
 
   var app = require("app");
 
+  var logger = require("lib/console");
+
 
 	var Layout = Backbone.View.extend({
 
@@ -12,18 +14,16 @@ define(function(require, exports, module) {
 
 		manage: true,
 
-		el: false,
-
-		template: require(["ldsh!./template"]),
+		template: require("ldsh!./template"),
 
 
 		beforeRender: function() {
-
+			logger.debug('beforeRender');
 
 		},
 
 		afterRender: function() {
-
+			logger.debug('afterRender');
 
 		},
 
@@ -44,17 +44,17 @@ define(function(require, exports, module) {
 
 
 		events: {
-      		click: "sayHello"
+      		click: "clickAction"
     	},
 
-    	sayHello: function() {
-
+    	clickAction: function() {
+			logger.debug('clickAction');
 
 		},
 
 		initialize: function() {
-
-
+			logger.debug('initialize');
+			this.listenTo(this.model,'all',this.render,this);
 		}
 
 	});

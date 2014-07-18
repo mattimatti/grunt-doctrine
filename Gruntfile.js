@@ -47,7 +47,8 @@ module.exports = function(grunt) {
         options: {
           mode: 'module',
           appName: 'app',
-          root: 'tmp'
+          root: 'tmp',
+          endpoint: 'http://beconcierge.local/v1/'
         },
         src: ['test/fixtures/**/*.xml']
       },
@@ -55,7 +56,8 @@ module.exports = function(grunt) {
         options: {
           mode: 'structured',
           appName: 'app',
-          root: 'tmp'
+          root: 'tmp',
+          endpoint: 'http://beconcierge.local/v1/'
         },
         src: ['test/fixtures/**/*.xml']
       }
@@ -81,6 +83,11 @@ module.exports = function(grunt) {
         pushTo: '<%=pkg.repository.url%>',
         gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
       }
+    },
+
+    release: {
+      options: {
+      }
     }
 
   });
@@ -88,6 +95,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-git');
   grunt.loadNpmTasks('grunt-bump');
+  grunt.loadNpmTasks('grunt-release');
 
   // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');

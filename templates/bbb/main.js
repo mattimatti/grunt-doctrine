@@ -4,6 +4,15 @@ define("kickstart", function(require) {
 
   var Backbone = require("backbone");
   var $ = require("jquery");
+  var bootstrap = require("bootstrap");
+
+  // Include Backbone epoxy
+  // require("backbone-epoxy");
+
+  var modelbinder = require("backbone-modelbinder");
+
+  //require("backbone-collectionbinder");
+
 
   // Define your master router on the application namespace and trigger all
   // navigation from this instance.

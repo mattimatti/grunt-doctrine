@@ -22,16 +22,16 @@ module.exports = function(grunt) {
 
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
-      mode: 'modular',
+      mode: 'module',
       appName: 'app',
       root: 'tmp',
-      endpoint: 'http://beconcierge.local/v1/',
+      endpoint: null,
       backbone: {
         relational: false,
         form: false,
         layoutmanager: true,
         fetchcache: false,
-        modeldefaults: false,
+        modelDefaults: false,
         pushState: false
       },
       modular: {
@@ -191,6 +191,14 @@ module.exports = function(grunt) {
     _copyFromTemplate('bbb/require.config.js', options.root + '/' + options.appName, 'config.js', options, allEntities);
     _copyFromTemplate('bbb/templates/main.html', options.root + '/' + options.appName, 'templates/main.html', options, allEntities);
     _copyFromTemplate('bbb/app.router.js', options.root + '/' + options.appName, 'router.js', options, allEntities);
+
+
+    _copyFromTemplate('bbb/app.layout.js', options.root + '/' + options.appName, 'view/layout.js', options, allEntities);
+    _copyFromTemplate('bbb/app.navigation.js', options.root + '/' + options.appName, 'view/navigation.js', options, allEntities);
+    _copyFromTemplate('bbb/navigation.html', options.root + '/' + options.appName, 'templates/navigation.html', options, allEntities);
+
+
+
 
 
     // Styles

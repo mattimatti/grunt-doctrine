@@ -22,10 +22,6 @@ define(function(require, exports, module) {
 
 
 
-
-
-
-
   // Alias the module for easier identification.
   var app = module.exports;
 
@@ -37,8 +33,15 @@ define(function(require, exports, module) {
   // A model storage
   app.dataModel = {};
 
+  // hold all the modules/routers
+  app.modules = {};
+
 
   // The root path to run the application through.
   app.root = "/";
+
+  // Extend Backbone Events for event triggering
+   _.extend(app, Backbone.Events);
+
 
 });

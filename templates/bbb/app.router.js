@@ -5,57 +5,34 @@ define(function(require, exports, module) {
 
   var logger = require("lib/console");
 
-
-  // Import the modules
-  // Comment out the ones you don't want to initilaize
-  <%  var count = collection.length; var index = 0;
-        _.each(collection, function(module) { %>var <%= module.moduleName %>Module = require("modules/<%= module.modulePrefix %>/Module");
-          <% }); %> 
-
-
-  require("bootstrap");
-
+  var MainLayout = require("view/layout");
 
   // Defining the application router, you can attach sub routers here.
   var Router = Backbone.Router.extend({
 
-    // holds the routers
-    routers : {},
-
-
     initialize: function() {
 
-
-      this.initSubrouters();
-
-      this.initModels();
+      logger.debug('initialize');
 
       this.initLayout();
+
+      this.initModules();
 
     },
 
 
-    // Initialize module routers
-    initSubrouters: function() {
+    // Initialize modules or routers or bundles
+    // and set a reference to the app.
+    initModules: function() {
 
-      // Reset routers collection
-      this.routers = {};
+      logger.debug('initModules');
+
+      app.modules.dashboard = require("modules/dashboard/Module");
 
       // Every module router
       <%  var count = collection.length; var index = 0;
         _.each(collection, function(module) { %>
-          this.routers.<%= module.collectionInstanceName %> = new <%= module.moduleName %>Module.Router();
-          <% }); %>
-
-    },
-
-
-    // Instance all model
-    initModels: function() {
-
-      <%  var count = collection.length; var index = 0;
-        _.each(collection, function(module) { %>
-           app.dataModel.<%= module.collectionInstanceName %> = new <%= module.moduleName %>Module.Collection();
+          app.modules.<%= module.collectionInstanceName %> = require("modules/<%= module.modulePrefix %>/Module");
           <% }); %>
 
     },
@@ -64,41 +41,27 @@ define(function(require, exports, module) {
     // initilaize the layout.
     initLayout: function() {
 
+      logger.debug('initLayout');
+
       // Use main layout and set Views.
-      var Layout = Backbone.Layout.extend({
-        el: "main",
+      var main = new MainLayout();
 
-        template: require("ldsh!./templates/main"),
-
-        /*
-        views: {
-          ".users": new User.Views.List({
-            collection: this.users
-          }),
-          ".repos": new Repo.Views.List({
-            collection: this.repos
-          }),
-          ".commits": new Commit.Views.List({
-            collection: this.commits
-          })
-        }*/
-      });
-
-      // Render to the page.
-      new Layout().render();
-    },
-
-
-    routes: {
-      "": "index",
+      app.view = main;
+      $("body").empty().append(main.el);
+      main.render();
 
     },
 
-    index: function() {
-      console.debug('index');
-      // Reset the state and render.
-      this.reset();
-    },
+
+    //routes: {
+    //  "/": "indexAction"
+    //},
+
+    //indexAction: function() {
+    //  console.debug('indexAction');
+    //  // Reset the state and render.
+    //  this.reset();
+    //},
 
     // Shortcut for building a url.
     go: function() {

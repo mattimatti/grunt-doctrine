@@ -1,0 +1,7 @@
+<h1><%= model.moduleName %></h1>
+<div>
+<% 
+_.each(model.fields, function(mfield) { %>  
+	<%= mfield.name %>
+<% }) %>
+</div>

@@ -22,7 +22,14 @@
     "layoutmanager": "../vendor/bower/layoutmanager/backbone.layoutmanager",
 
     "backbone-fetch-cache": "../vendor/backbone-fetch-cache/backbone.fetch-cache",
+    
     "backbone-relational": "../vendor/bower/backbone-relational/backbone-relational",
+
+    //"backbone-epoxy": "../vendor/backbone-epoxy/backbone.epoxy",
+
+    "backbone-modelbinder": "../vendor/backbone-modelbinder/Backbone.ModelBinder",
+    
+    //"backbone-collectionbinder": "../vendor/backbone-modelbinder/Backbone.CollectionBinder"
    
   },
 

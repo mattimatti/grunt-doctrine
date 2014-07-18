@@ -1,0 +1,14 @@
+<h1><%= model.moduleName %></h1>
+<div class="form form-horizontal" role="form">
+<% 
+_.each(model.fields, function(mfield) { %>  
+
+  <div class="form-group">
+    <label for="<%= mfield.name %>"><%= mfield.name %></label>
+    <input type="text" class="form-control" id="<%= mfield.name %>" name="<%= mfield.name %>" placeholder="<%= mfield.name %>">
+  </div>
+
+<% }) %>
+
+  <button type="button" class="btn btn-default submitForm">Submit</button>
+</div>

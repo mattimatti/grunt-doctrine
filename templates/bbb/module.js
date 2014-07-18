@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
   "use strict";
 
-  module.exports = {
+  var Namespace = {
     Collection: require("./Collection"),
     Model: require("./Model"),
     Router: require("./Router"),
@@ -13,4 +13,14 @@ define(function(require, exports, module) {
       List: require("./list/view")
     }
   };
+
+
+  var initialize = function(){
+    var router = new Namespace.Router();
+      return router;
+  };
+
+  module.exports = initialize();
+
+
 });

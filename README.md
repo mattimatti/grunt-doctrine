@@ -41,33 +41,34 @@ grunt.initConfig({
 Type: `String`
 Default value: `'module'`
 
-A string that determines how we want to create models, all in one file or modular application
+A string that determines how we want to create models, all in one file or modular application.
+Values can be `'module'` or `'structured'`.
 
 #### options.appName
 Type: `String`
 Default value: `'app'`
 
-The folder that will contain the application
+The application name and folder that will contain the javascript application.
 
 #### options.root
 Type: `String`
 Default value: `'/'`
 
-The destination folder where the code will be generated
+The destination folder where the code will be generated. `'appName'` will be appended.
 
 
 #### options.endpoint
 Type: `String`
-Default value: `'{}'`
+Default value: `'null'`
 
-The api endpoint
+The api endpoint for example http://example.com/v1/
 
 
 #### options.backbone
 Type: `Object`
 Default value: `'{}'`
 
-Options for the backbone modules to use
+Options for the backbone modules to use. Options will be described later in this module.
 
 
 #### options.backbone.relational
@@ -84,11 +85,11 @@ Default value: `'false'`
 Use Backbone.Fetch cache plugin to cache resources?
 
 
-#### options.backbone.modeldefaults
+#### options.backbone.modelDefaults
 Type: `Boolean`
 Default value: `'false'`
 
-Declare defaults in models?
+Declare defaults in Backbone models.
 
 
 #### options.backbone.pushState
@@ -104,15 +105,18 @@ Enables pushState for Backbone.History
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+In this example, We create an application with 
 
 ```js
 grunt.initConfig({
   doctrine: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
+    options: {
+          mode: 'module',
+          appName: 'app',
+          root: 'tmp',
+          endpoint: 'http://example.local/v1/'
+        },
+    src: ['test/fixtures/**/*.xml']
   },
 })
 ```
@@ -124,12 +128,12 @@ In this example, custom options are used to do something else with whatever else
 grunt.initConfig({
   doctrine: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
+          mode: 'structured',
+          appName: 'app',
+          root: 'tmp',
+          endpoint: 'http://beconcierge.local/v1/'
+        },
+    src: ['test/fixtures/**/*.xml']
   },
 })
 ```

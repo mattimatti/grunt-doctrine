@@ -22,7 +22,7 @@ define(function(require, exports, module) {
 
 
 
-		<%  if(options.backbone.modeldefaults){ %>
+		<%  if(options.backbone.modelDefaults){ %>
 
 		defaults: {
 			<%  var count = model.fields.length; var index = 0;

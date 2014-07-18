@@ -17,7 +17,7 @@ define(function(require, exports, module) {
 
 		idAttribute: '<%= model.idAttribute %>',
 
-		<%  if(options.backbone.modeldefaults){ %>
+		<%  if(options.backbone.modelDefaults){ %>
 
 		defaults: {
 			<%  var count = model.fields.length; var index = 0;

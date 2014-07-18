@@ -3,6 +3,8 @@ define(function(require, exports, module) {
 
   var app = require("app");
 
+  var logger = require("lib/console");
+
 
 	var Layout = Backbone.View.extend({
 
@@ -12,19 +14,19 @@ define(function(require, exports, module) {
 
 		manage: true,
 
-		el: false,
 
-		template: require(["ldsh!./template"]),
+		template: require("ldsh!./template"),
 
 
 		beforeRender: function() {
-
+			logger.debug('beforeRender');
 
 		},
 
 		afterRender: function() {
-
-
+			logger.debug('afterRender');
+			logger.debug('bind model',this.model);
+			this.modelBinder.bind(this.model, this.$('.form'));
 		},
 
 
@@ -42,20 +44,37 @@ define(function(require, exports, module) {
 
 		/************ Backbone.View *****************/
 
+		submitForm: function() {
+			logger.debug('submitForm');
+			this.listenToOnce(this.model,'sync',this.onSaveSuccess,this);
+			this.model.save();
+		},
 
-		events: {
-      		click: "sayHello"
-    	},
+		onSaveSuccess: function(){
+			logger.debug('onSaveSuccess', this.model);
+			this.render();
+		},
 
-    	sayHello: function() {
 
+		initialize: function() {
+			logger.debug('initialize');
+
+			this.modelBinder = new Backbone.ModelBinder();
+			logger.debug('modelBinder',this.modelBinder);
+			
+			this.listenTo(this.model, 'change', this.onModelChanged, this);
+		},
+
+
+		onModelChanged: function(){
+			logger.debug('onModelChanged',this.model);
 
 		},
 
-		initialize: function() {
+		events : {
+			"click .submitForm": "submitForm"
+	    }
 
-
-		}
 
 	});
 
