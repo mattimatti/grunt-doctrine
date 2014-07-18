@@ -5,10 +5,34 @@ _.each(model.fields, function(mfield) { %>
 
   <div class="form-group">
     <label for="<%= mfield.name %>"><%= mfield.name %></label>
-    <input type="text" class="form-control" id="<%= mfield.name %>" name="<%= mfield.name %>" placeholder="<%= mfield.name %>">
+    <input type="text" class="form-control" id="<%= mfield.column %>" name="<%= mfield.column %>" placeholder="<%= mfield.name %>">
   </div>
 
 <% }) %>
+
+
+
+<% 
+_.each(model.HasOne, function(relation) { %>  
+
+  <div class="form-group">
+    <label for="<%= relation.field %>"><%= relation.field %></label>
+    <select  class="form-control selectbox-<%= relation.field %>" id="<%= relation.field %>" name="<%= relation.field %>" ></select>
+  </div>
+
+<% }) %>
+
+
+<% 
+_.each(model.HasMany, function(relation) { %>  
+
+  <div class="form-group">
+  	<div class="subview subview-<%= relation.field %>"></div>
+  </div>
+
+<% }) %>
+
+
 
   <button type="button" class="btn btn-default submitForm">Submit</button>
 </div>

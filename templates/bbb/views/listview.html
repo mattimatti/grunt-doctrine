@@ -1,7 +1,20 @@
 <h1><%= model.moduleName %></h1>
+<a class="btn btn-default" href="#/<%= model.modulePrefix %>/create">Create</a>
+<table class="table table-striped">
+	<thead>
+<% 
+_.each(model.fields, function(mfield) { %>  
+  <th>
+   <%= mfield.name %>
+  </th>
+<% }) %>
+  <th>
 
-<table>
-	<thead></thead>
-	<tbody id="table">
+  </th>
+    <th>
+
+  </th>
+	</thead>
+	<tbody class="<%= model.moduleName %>-body">
 	</tbody>
 </table>

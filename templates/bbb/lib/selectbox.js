@@ -7,7 +7,7 @@ define(function(require, exports, module) {
 
     var logger = require("lib/console");
 
-	var Layout = Backbone.View.extend({
+	var SelectBox = Backbone.View.extend({
 
 		<%  if(options.backbone.layoutmanager){ %>
 
@@ -15,18 +15,23 @@ define(function(require, exports, module) {
 
 		manage: true,
 
-		template: require("ldsh!../templates/navigation"),
-
 		el:false,
 
 
 		beforeRender: function() {
-			logger.debug('beforeRender');
-
+			this.$el.empty();
 		},
 
 		afterRender: function() {
-			logger.debug('afterRender');
+			
+			this.$el.empty();
+
+			var me = this;
+
+			 this.collection.each(function(model) {
+			 	console.debug('iterate model', model.attributes);
+			 	me.$el.append($('<option/>').attr('value',model.getId()).text(model.getLabel()));
+		    }, this);
 		},
 
 
@@ -38,10 +43,11 @@ define(function(require, exports, module) {
 
 
 		initialize: function() {
-			logger.debug('initialize');
+			this.listenTo(this.collection, 'sync', this.render, this);
+			this.collection.fetch();
 		}
 
 	});
 
-	module.exports  = Layout;
+	module.exports  = SelectBox;
 });

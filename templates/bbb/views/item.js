@@ -23,8 +23,8 @@ define(function(require, exports, module) {
 		},
 
 		afterRender: function() {
-			logger.debug('afterRender');
-
+			logger.debug('afterRender', this.model);
+			this.modelBinder.bind(this.model, this.el);
 		},
 
 
@@ -44,17 +44,23 @@ define(function(require, exports, module) {
 
 
 		events: {
-      		click: "clickAction"
+      		'click .delete-item': "deleteAction",
+      		'click .edit-item': "editAction"
     	},
 
-    	clickAction: function() {
-			logger.debug('clickAction');
+    	deleteAction: function() {
+			this.trigger('delete', this.model);
+		},
 
+    	editAction: function() {
+			logger.debug('editAction');
+			this.trigger('edit', this.model);
 		},
 
 		initialize: function() {
 			logger.debug('initialize');
-			this.listenTo(this.model,'all',this.render,this);
+			this.modelBinder = new Backbone.ModelBinder();
+			
 		}
 
 	});

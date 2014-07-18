@@ -9,6 +9,8 @@ define(function(require, exports, module) {
 
     var Collection = require("./Collection");
 
+    var Model = require("./Model");
+
     var ItemView = require("./item/view");
 
     var EditView = require("./edit/view");
@@ -27,7 +29,6 @@ define(function(require, exports, module) {
         el: '.main',
 
         initialize: function() {
-            logger.debug('initialize');
 
             this.collection = app.dataModel.<%= model.modulePrefix %> = new Collection();
 
@@ -58,6 +59,7 @@ define(function(require, exports, module) {
             app.trigger('<%=model.modulePrefix %>:viewall');
 
             this.render(ListView,{collection:this.collection});
+            this.collection.fetch();
 
         },
 
@@ -79,7 +81,7 @@ define(function(require, exports, module) {
             var viewModel = this.collection.get(id);
 
            
-            this.render(ItemView,{model:viewModel});
+            this.render(ItemView,{model:viewModel},true);
         },
 
 
@@ -94,7 +96,7 @@ define(function(require, exports, module) {
             };
             app.trigger('<%=model.modulePrefix %>:create');
 
-            this.render(CreateView,{model:this.collection.create()});
+            this.render(CreateView,{model:new Model({})},true);
         },
 
 
@@ -111,16 +113,18 @@ define(function(require, exports, module) {
 
             var editableModel = this.collection.get(id);
 
-            this.render(EditView,{model:editableModel});
+            this.render(EditView,{model:editableModel},true);
         },
 
 
         /**
          * Render a view
          */
-        render: function(ViewClass, dataObj) {
+        render: function(ViewClass, dataObj, renderNow) {
             this.view = app.view.setView(this.el, new ViewClass(dataObj));
-            this.view.render();
+            if(renderNow === true){
+                this.view.render();
+            }
         }
 
 

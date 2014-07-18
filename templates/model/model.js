@@ -15,7 +15,7 @@ define(function(require, exports, module) {
 	var Model = Backbone.Model.extend({
 	<% } %>
 
-		idAttribute: '<%= model.idAttribute %>',
+		//idAttribute: '<%= model.idAttribute %>',
 
 		<%  if(options.backbone.modelDefaults){ %>
 
@@ -26,11 +26,28 @@ define(function(require, exports, module) {
 		<% } %>
 
 
-		url: app.api + '<%= model.defaultUrl %>',
+		url: function(){
+
+			if(this.isNew()){
+				return app.api + '<%= model.defaultUrl %>';
+			}
+			return app.api + '<%= model.defaultUrl %>/' + this.getId();
+
+		},
 
 
 		initialize: function() {
 			
+		},
+
+		
+
+		getId: function() {
+			return this.get(this.idAttribute);
+		},
+
+		getLabel: function() {
+			return this.get(this.idAttribute);
 		},
 
 

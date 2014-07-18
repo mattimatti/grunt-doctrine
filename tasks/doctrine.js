@@ -92,6 +92,8 @@ module.exports = function(grunt) {
 
       allEntities.push(entityData);
 
+      //console.dir(allEntities[2]);
+
     });
 
 
@@ -156,7 +158,7 @@ module.exports = function(grunt) {
     // List View
     _createFromTemplate(entityData, 'bbb/views/listview.js', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix + '/list', 'view.js', options, allEntities);
     _createFromTemplate(entityData, 'bbb/views/listview.html', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix + '/list', 'template.html', options, allEntities);
-
+    _createFromTemplate(entityData, 'bbb/views/row.html', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix + '/list', 'row.html', options, allEntities);
 
     // Create View
     _createFromTemplate(entityData, 'bbb/views/createform.js', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix + '/create', 'view.js', options, allEntities);
@@ -173,6 +175,8 @@ module.exports = function(grunt) {
     _createFromTemplate(entityData, 'bbb/views/item.html', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix + '/item', 'template.html', options, allEntities);
 
 
+
+
     // Module
     _createFromTemplate(entityData, 'bbb/module.js', options.root + '/' + options.appName + '/modules/' + entityData.modulePrefix + '/', 'Module.js', options, allEntities);
 
@@ -182,6 +186,7 @@ module.exports = function(grunt) {
     // _copyFromTemplate('bbb/lib/basecollection.js', options.root + '/'+options.appName + '/lib', 'BaseCollection.js', options, allEntities);
 
     _copyFromTemplate('bbb/lib/console.js', options.root + '/' + options.appName + '/lib', 'console.js', options, allEntities);
+    _copyFromTemplate('bbb/lib/selectbox.js', options.root + '/' + options.appName + '/lib', 'selectbox.js', options, allEntities);
 
 
 
@@ -377,7 +382,7 @@ module.exports = function(grunt) {
     }
 
 
-    //console.dir(entityData);
+   //console.dir(entityData);
 
     return entityData;
   };

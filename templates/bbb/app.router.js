@@ -27,7 +27,7 @@ define(function(require, exports, module) {
 
       logger.debug('initModules');
 
-      app.modules.dashboard = require("modules/dashboard/Module");
+      //app.modules.dashboard = require("custommodules/dashboard/Module");
 
       // Every module router
       <%  var count = collection.length; var index = 0;

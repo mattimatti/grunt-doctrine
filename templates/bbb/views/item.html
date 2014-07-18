@@ -1,7 +1,9 @@
 <h1><%= model.moduleName %></h1>
-<div>
+<dl>
 <% 
 _.each(model.fields, function(mfield) { %>  
-	<%= mfield.name %>
+	 <dd>
+   <span name="<%= mfield.column %>"></span>
+  </dd>
 <% }) %>
-</div>
+</dl>

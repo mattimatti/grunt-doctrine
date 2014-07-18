@@ -3,11 +3,13 @@
   
   
   <entity name="Db\Entity\Country" table="country">
+    
     <id name="countryCode" type="string" column="country_code" length="5" nullable="false">
-      <generator strategy="NONE"/>
+      <generator strategy="IDENTITY"/>
     </id>
    
-    <field name="name" type="string" column="name" length="100" nullable="false"/>
+    <field name="Code" type="string" column="code" length="2" nullable="false"/>
+    <field name="Name" type="string" column="name" length="100" nullable="false"/>
     
     </entity>
 </doctrine-mapping>

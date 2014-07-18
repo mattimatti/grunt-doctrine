@@ -6,19 +6,32 @@
       <index name="country_code" columns="country_code"/>
     </indexes>
     
-    <id name="addressId" type="integer" column="address_id">
+    <id name="AddressId" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
+
+
+    <field name="workPhone" type="string" column="work_phone" length="255" nullable="true"/>
+    <field name="homePhone" type="string" column="home_phone" length="255" nullable="true"/>
+    <field name="mobile" type="string" column="mobile" length="255" nullable="true"/>
+    <field name="fax" type="string" column="fax" length="255" nullable="true"/>
+    <field name="notes" type="string" column="notes" length="255" nullable="true"/>
     
+    <field name="Street1" type="string" column="street1" length="255" nullable="true"/>
+    <field name="Street2" type="string" column="street2" length="255" nullable="true"/>
+    <field name="City" type="string" column="city" length="255" nullable="true"/>
+    <field name="State" type="string" column="state" length="255" nullable="true"/>
+    <field name="PostalCode" type="string" column="pocode" length="255" nullable="true"/>
+
     <many-to-one field="client" target-entity="Db\Entity\Client" fetch="LAZY">
       <join-columns>
-        <join-column name="client_id" referenced-column-name="client_id"/>
+        <join-column name="client_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
     
     <many-to-one field="country" target-entity="Db\Entity\Country" fetch="EAGER">
       <join-columns>
-        <join-column name="country_code" referenced-column-name="country_code"/>
+        <join-column name="country_code" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
     

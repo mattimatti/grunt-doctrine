@@ -4,18 +4,20 @@
     <indexes>
       <index name="client_id" columns="client_id"/>
     </indexes>
-    <id name="contactId" type="integer" column="contact_id">
+    <id name="contactId" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="username" type="string" column="username" length="255" nullable="true"/>
+
     <field name="firstName" type="string" column="first_name" length="255" nullable="true"/>
     <field name="lastName" type="string" column="last_name" length="255" nullable="true"/>
+
     <field name="email" type="string" column="email" length="255" nullable="true"/>
     <field name="phone1" type="string" column="phone1" length="255" nullable="true"/>
     <field name="phone2" type="string" column="phone2" length="255" nullable="true"/>
+
     <many-to-one field="client" target-entity="Db\Entity\Client" fetch="LAZY">
       <join-columns>
-        <join-column name="client_id" referenced-column-name="client_id"/>
+        <join-column name="client_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
   </entity>

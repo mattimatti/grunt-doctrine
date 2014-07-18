@@ -18,7 +18,7 @@ define(function(require, exports, module) {
 		// ********* Backbone.Model **************
 
 
-		idAttribute: '<%= model.idAttribute %>',
+		//idAttribute: '<%= model.idAttribute %>',
 
 
 

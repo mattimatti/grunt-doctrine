@@ -1,0 +1,12 @@
+<% 
+_.each(model.fields, function(mfield) { %>  
+  <td>
+   <span name="<%= mfield.column %>"></span>
+  </td>
+<% }) %>
+  <td>
+   		<a href="javascript:;" class="edit-item">Edit</a>
+  </td>
+  <td>
+   		<a href="javascript:;" class="delete-item">Delete</a>
+  </td>

@@ -5,6 +5,8 @@ define(function(require, exports, module) {
 
   var logger = require("lib/console");
 
+  var SelectBox  = require("lib/selectbox");
+
 
 	var Layout = Backbone.View.extend({
 
@@ -24,7 +26,19 @@ define(function(require, exports, module) {
 
 		afterRender: function() {
 			logger.debug('afterRender');
-			logger.debug('bind model',this.model);
+
+
+
+
+			<% 
+			_.each(model.HasOne, function(relation) { %>  
+			  this.setView('.selectbox-<%= relation.field %>', new SelectBox({el: this.$el.find('.selectbox-<%= relation.field %>'), collection: app.dataModel.<%= relation.field %>}));
+			<% }) %>
+
+
+
+
+
 			this.modelBinder.bind(this.model, this.$('.form'));
 		},
 
@@ -51,6 +65,7 @@ define(function(require, exports, module) {
 
 		onSaveSuccess: function(){
 			logger.debug('onSaveSuccess', this.model);
+			app.router.navigate('<%=model.modulePrefix %>/list', true );
 		},
 
 
@@ -59,6 +74,8 @@ define(function(require, exports, module) {
 			
 			this.modelBinder = new Backbone.ModelBinder();
 			logger.debug('modelBinder',this.modelBinder);
+
+			
 
 			this.listenTo(this.model, 'change', this.onModelChanged, this);
 		},
