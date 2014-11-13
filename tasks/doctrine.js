@@ -225,18 +225,18 @@ module.exports = function(grunt) {
     _copyFromTemplate('bbb/bower.json', options.root, 'bower.json', options, allEntities);
     _copyFromTemplate('bbb/.bowerrc', options.root, '.bowerrc', options, allEntities);
 
-    grunt.file.copy('templates/bbb/GruntFile.js', options.root + '/Gruntfile.js');
-    grunt.file.copy('templates/bbb/index.html', options.root + '/index.html');
+    grunt.file.copy(thisPlugin+'templates/bbb/GruntFile.js', options.root + '/Gruntfile.js');
+    grunt.file.copy(thisPlugin+'templates/bbb/index.html', options.root + '/index.html');
 
 
     // Tests
     if (options.modular.tests) {
 
-      grunt.file.copy('templates/bbb/test/runner.js', options.root + '/test/runner.js');
-      grunt.file.copy('templates/bbb/test/runner.js', options.root + '/test/jasmine/specs/example.spec.js');
-      grunt.file.copy('templates/bbb/test/runner.js', options.root + '/test/qunit/specs/example.spec.js');
-      grunt.file.copy('templates/bbb/test/runner.js', options.root + '/test/mocha/specs/example.spec.js');
-      grunt.file.copy('templates/bbb/test/runner.js', options.root + '/test/runner.js');
+      grunt.file.copy(thisPlugin+'templates/bbb/test/runner.js', options.root + '/test/runner.js');
+      grunt.file.copy(thisPlugin+'templates/bbb/test/runner.js', options.root + '/test/jasmine/specs/example.spec.js');
+      grunt.file.copy(thisPlugin+'templates/bbb/test/runner.js', options.root + '/test/qunit/specs/example.spec.js');
+      grunt.file.copy(thisPlugin+'templates/bbb/test/runner.js', options.root + '/test/mocha/specs/example.spec.js');
+      grunt.file.copy(thisPlugin+'templates/bbb/test/runner.js', options.root + '/test/runner.js');
 
     }
 
