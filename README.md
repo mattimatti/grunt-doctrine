@@ -47,7 +47,7 @@ The application name and folder that will contain the javascript application.
 Type: `String`
 Default value: `'/'`
 
-The destination folder where the code will be generated. `'appName'` will be appended.
+The destination folder where the code will be generated.
 
 
 #### options.endpoint
