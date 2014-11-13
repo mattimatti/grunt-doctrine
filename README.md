@@ -41,7 +41,7 @@ grunt.initConfig({
 Type: `String`
 Default value: `'app'`
 
-The application name and folder that will contain the javascript application.
+The application name that will be written to the package.json file
 
 #### options.root
 Type: `String`
