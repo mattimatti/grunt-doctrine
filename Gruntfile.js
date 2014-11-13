@@ -46,18 +46,18 @@ module.exports = function(grunt) {
       module: {
         options: {
           mode: 'module',
-          appName: 'app',
+          appName: 'beconcierge',
           root: 'tmp',
-          endpoint: 'http://beconcierge.local/v1/'
+          endpoint: 'http://app.beconcierge.local/api/'
         },
         src: ['test/fixtures/**/*.xml']
       },
       structured: {
         options: {
           mode: 'structured',
-          appName: 'app',
+          appName: 'beconcierge',
           root: 'tmp',
-          endpoint: 'http://beconcierge.local/v1/'
+          endpoint: 'http://app.beconcierge.local/api/'
         },
         src: ['test/fixtures/**/*.xml']
       }
@@ -86,8 +86,10 @@ module.exports = function(grunt) {
     },
 
     release: {
-      options: {
-      }
+      options: {}
+    },
+    exec: {
+      compile: 'cd tmp && npm install && grunt && cd dist && python -m SimpleHTTPServer'
     }
 
   });
@@ -96,6 +98,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-git');
   grunt.loadNpmTasks('grunt-bump');
   grunt.loadNpmTasks('grunt-release');
+  grunt.loadNpmTasks('grunt-exec');
 
   // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');
@@ -105,6 +108,6 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['clean', 'doctrine', 'nodeunit']);
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['jshint:all', 'test', 'jshint:generated']);
+  grunt.registerTask('default', ['jshint:all', 'test', 'jshint:generated', 'exec:compile']);
 
 };

@@ -6,14 +6,43 @@ module.exports = function(grunt) {
     clean: ["dist/", "test/reports"],
 
     // Run your source code through JSHint's defaults.
-    jshint: ["src/app/**/*.js"],
+    jshint: ["app/**/*.js"],
 
     // This task uses James Burke's excellent r.js AMD builder to take all
     // modules and concatenate them into a single file.
     requirejs: {
       release: {
         options: {
-          mainConfigFile: "src/app/config.js",
+          mainConfigFile: "app/config.js",
+          /*generateSourceMaps: true,*/
+          include: ["main"],
+          insertRequire: ["main"],
+          out: "dist/source.js",
+          optimize: "none",
+
+          // Since we bootstrap with nested `require` calls this option allows
+          // R.js to find them.
+          findNestedDependencies: true,
+
+          // Include a minimal AMD implementation shim.
+          name: "almond",
+
+          // Setting the base url to the distribution directory allows the
+          // Uglify minification process to correctly map paths for Source
+          // Maps.
+          baseUrl: "app",
+
+          // Wrap everything in an IIFE.
+          wrap: true,
+
+          // Do not preserve any license comments when working with source
+          // maps.  These options are incompatible.
+          preserveLicenseComments: false
+        }
+      },
+      debug: {
+        options: {
+          mainConfigFile: "app/config.js",
           generateSourceMaps: true,
           include: ["main"],
           insertRequire: ["main"],
@@ -30,7 +59,7 @@ module.exports = function(grunt) {
           // Setting the base url to the distribution directory allows the
           // Uglify minification process to correctly map paths for Source
           // Maps.
-          baseUrl: "dist/app",
+          baseUrl: "app",
 
           // Wrap everything in an IIFE.
           wrap: true,
@@ -51,10 +80,10 @@ module.exports = function(grunt) {
       // development file path.
       "dist/styles.css": {
         // Point this to where your `index.css` file is location.
-        src: "src/app/styles/index.css",
+        src: "app/styles/index.css",
 
         // The relative path to use for the @imports.
-        paths: ["src/app/styles"],
+        paths: ["app/styles"],
 
         // Rewrite image paths during release to be relative to the `img`
         // directory.
@@ -104,10 +133,10 @@ module.exports = function(grunt) {
     // Move vendor and app logic during a build.
     copy: {
       release: {
-        files: [{
-          src: ["src/app/**"],
+        files: [/*{
+          src: ["app/**"],
           dest: "dist/"
-        }, {
+        },*/ {
           src: "vendor/**",
           dest: "dist/"
         }]
@@ -149,8 +178,8 @@ module.exports = function(grunt) {
     "clean",
     "jshint",
     "processhtml",
-    "copy",
     "requirejs",
+     "copy",
     "styles",
     "cssmin",
     //"compress",
