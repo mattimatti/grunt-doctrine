@@ -63,7 +63,6 @@ Default value: `'null'`
 
 The api endpoint for example http://example.com/v1/
 
-
 #### options.backbone
 Type: `Object`
 Default value: `'{}'`
@@ -100,12 +99,10 @@ Enables pushState for Backbone.History
 
 
 
-
-
 ### Usage Examples
 
 #### Default Options
-In this example, We create an application with 
+In this example, We create a complete module application
 
 ```js
 grunt.initConfig({
@@ -114,7 +111,7 @@ grunt.initConfig({
           mode: 'module',
           appName: 'app',
           root: 'tmp',
-          endpoint: 'http://example.local/v1/'
+          endpoint: 'http://example.com/v1/'
         },
     src: ['test/fixtures/**/*.xml']
   },
@@ -122,7 +119,7 @@ grunt.initConfig({
 ```
 
 #### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+in this example, we create a bbb modular application
 
 ```js
 grunt.initConfig({
@@ -131,7 +128,7 @@ grunt.initConfig({
           mode: 'structured',
           appName: 'app',
           root: 'tmp',
-          endpoint: 'http://beconcierge.local/v1/'
+          endpoint: 'http://example.com/v1/'
         },
     src: ['test/fixtures/**/*.xml']
   },
@@ -139,7 +136,7 @@ grunt.initConfig({
 ```
 
 ## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+Actually contributing is not permitted.
 
 ## Release History
 _(Nothing yet)_
