@@ -264,7 +264,7 @@ module.exports = function(grunt) {
   // copy from template
   var _copyFromTemplate = function(template, folder, name, options, collection) {
 
-    console.log('_copyFromTemplate: ',thisPlugin+'templates/' + template);
+    //console.log('_copyFromTemplate: ',thisPlugin+'templates/' + template);
     var templateFunc = _.template(grunt.file.read(thisPlugin+'templates/' + template));
 
     var fileCont = templateFunc({
@@ -284,7 +284,7 @@ module.exports = function(grunt) {
 
   var _createFromTemplate = function(entityData, template, folder, filenameWithExtension, options, collection) {
 
-    console.log('_createFromTemplate: ',thisPlugin+'templates/' + template);
+   // console.log('_createFromTemplate: ',thisPlugin+'templates/' + template);
     var templateFunc = _.template(grunt.file.read(thisPlugin+'templates/' + template));
 
     var fileCont = templateFunc({
