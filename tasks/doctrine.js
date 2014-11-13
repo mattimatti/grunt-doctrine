@@ -16,7 +16,7 @@ var beautify = require('js-beautify').js_beautify;
 var path = require('path');
 var fs = require('fs');
 
-var thismodule = path.dirname(fs.realpathSync(__filename))+'/../';
+var thisPlugin = path.dirname(fs.realpathSync(__filename))+'/../';
 
 module.exports = function(grunt) {
 
@@ -220,7 +220,7 @@ module.exports = function(grunt) {
 
     // Build Tools
     _copyFromTemplate('bbb/.gitkeep', options.root + '/' + 'vendor', '.gitkeep', options, allEntities);
-   // _copyFromTemplate('bbb/.gitignore', options.root, '.gitignore', options, allEntities);
+    //_copyFromTemplate('bbb/.gitignore', options.root, '.gitignore', options, allEntities);
     _copyFromTemplate('bbb/package.json', options.root, 'package.json', options, allEntities);
     _copyFromTemplate('bbb/bower.json', options.root, 'bower.json', options, allEntities);
     _copyFromTemplate('bbb/.bowerrc', options.root, '.bowerrc', options, allEntities);
@@ -249,7 +249,7 @@ module.exports = function(grunt) {
   // Create a full module
   var _createFullModule = function(allEntities, entityData, options) {
 
-    var template = _.template(grunt.file.read('templates/module/fullmodule.js'));
+    var template = _.template(grunt.file.read(thisPlugin+'templates/module/fullmodule.js'));
 
     var fileCont = template(entityData);
 
@@ -264,7 +264,8 @@ module.exports = function(grunt) {
   // copy from template
   var _copyFromTemplate = function(template, folder, name, options, collection) {
 
-    var templateFunc = _.template(grunt.file.read(thismodule+'templates/' + template));
+    console.log('_copyFromTemplate: ',thisPlugin+'templates/' + template);
+    var templateFunc = _.template(grunt.file.read(thisPlugin+'templates/' + template));
 
     var fileCont = templateFunc({
       options: options,
@@ -283,7 +284,8 @@ module.exports = function(grunt) {
 
   var _createFromTemplate = function(entityData, template, folder, filenameWithExtension, options, collection) {
 
-    var templateFunc = _.template(grunt.file.read(thismodule+'templates/' + template));
+    console.log('_createFromTemplate: ',thisPlugin+'templates/' + template);
+    var templateFunc = _.template(grunt.file.read(thisPlugin+'templates/' + template));
 
     var fileCont = templateFunc({
       model: entityData,
