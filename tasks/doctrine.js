@@ -112,6 +112,7 @@ module.exports = function(grunt) {
       // build files
       switch (options.mode) {
 
+        default:
         case 'structured':
 
           // build the models
@@ -126,9 +127,9 @@ module.exports = function(grunt) {
 
           break;
 
-        case 'module':
+        //case 'module':
           //_createFullModule(entityData, options);
-          break;
+        //  break;
 
       }
 

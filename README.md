@@ -37,13 +37,6 @@ grunt.initConfig({
 
 ### Options
 
-#### options.mode
-Type: `String`
-Default value: `'module'`
-
-A string that determines how we want to create models, all in one file or modular application.
-Values can be `'module'` or `'structured'`.
-
 #### options.appName
 Type: `String`
 Default value: `'app'`
@@ -108,7 +101,6 @@ In this example, We create a complete module application
 grunt.initConfig({
   doctrine: {
     options: {
-          mode: 'module',
           appName: 'app',
           root: 'tmp',
           endpoint: 'http://example.com/v1/'
@@ -125,7 +117,6 @@ in this example, we create a bbb modular application
 grunt.initConfig({
   doctrine: {
     options: {
-          mode: 'structured',
           appName: 'app',
           root: 'tmp',
           endpoint: 'http://example.com/v1/'
