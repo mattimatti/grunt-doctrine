@@ -1,7 +1,7 @@
 {
   "name": "grunt-doctrine",
-  "version": "0.0.21",
-  "description": "Grunt plugin to convert doctrine xml annotations into backbone models and collections. Useful in conjunction with doctrine apigility. Includes option to scaffold an entire application",
+  "version": "0.0.22",
+  "description": "Grunt plugin to convert doctrine xml annotations into backbone models and collections. Useful in conjunction with doctrine apigility. Includes option to scaffold an entire BBB application",
   "repository": "https://github.com/mattimatti/grunt-doctrine.git",
   "author": {
     "name": "mattimatti",
@@ -39,5 +39,6 @@
     "js-beautify": "~1.5.1",
     "jshint-stylish": "~0.1.5",
     "underscore.string": "~2.3.2"
-  }
+  },
+  "preferGlobal": "true"
 }
