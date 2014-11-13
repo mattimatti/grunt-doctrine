@@ -13,6 +13,11 @@ var _ = require('underscore-contrib');
 var _s = require('underscore.string');
 var beautify = require('js-beautify').js_beautify;
 
+var path = require('path');
+var fs = require('fs');
+
+var thismodule = path.dirname(fs.realpathSync(__filename))+'/../';
+
 module.exports = function(grunt) {
 
   // Please see the Grunt documentation for more information regarding task
@@ -187,6 +192,7 @@ module.exports = function(grunt) {
 
     _copyFromTemplate('bbb/lib/console.js', options.root + '/' + options.appName + '/lib', 'console.js', options, allEntities);
     _copyFromTemplate('bbb/lib/selectbox.js', options.root + '/' + options.appName + '/lib', 'selectbox.js', options, allEntities);
+    _copyFromTemplate('bbb/lib/optionsgrid.js', options.root + '/' + options.appName + '/lib', 'optionsgrid.js', options, allEntities);
 
 
 
@@ -214,7 +220,7 @@ module.exports = function(grunt) {
 
     // Build Tools
     _copyFromTemplate('bbb/.gitkeep', options.root + '/' + 'vendor', '.gitkeep', options, allEntities);
-    _copyFromTemplate('bbb/.gitignore', options.root, '.gitignore', options, allEntities);
+   // _copyFromTemplate('bbb/.gitignore', options.root, '.gitignore', options, allEntities);
     _copyFromTemplate('bbb/package.json', options.root, 'package.json', options, allEntities);
     _copyFromTemplate('bbb/bower.json', options.root, 'bower.json', options, allEntities);
     _copyFromTemplate('bbb/.bowerrc', options.root, '.bowerrc', options, allEntities);
@@ -258,7 +264,7 @@ module.exports = function(grunt) {
   // copy from template
   var _copyFromTemplate = function(template, folder, name, options, collection) {
 
-    var templateFunc = _.template(grunt.file.read('templates/' + template));
+    var templateFunc = _.template(grunt.file.read(thismodule+'templates/' + template));
 
     var fileCont = templateFunc({
       options: options,
@@ -277,7 +283,7 @@ module.exports = function(grunt) {
 
   var _createFromTemplate = function(entityData, template, folder, filenameWithExtension, options, collection) {
 
-    var templateFunc = _.template(grunt.file.read('templates/' + template));
+    var templateFunc = _.template(grunt.file.read(thismodule+'templates/' + template));
 
     var fileCont = templateFunc({
       model: entityData,
@@ -363,10 +369,18 @@ module.exports = function(grunt) {
     // Relations oneTOMany
     var HasMany = _.getPath(entity, "one-to-many");
 
+   
+
     if (HasMany !== undefined) {
+
+       //console.log(HasMany);
+      
       HasMany = (_.isArray(HasMany)) ? HasMany : [HasMany];
+
       _.each(HasMany, function(elm) {
+
         var theLinkedModel = _removePHPNamespace(_.getPath(elm, "target-entity"));
+
         elm.LinkedModel = 'modules/' + _s.underscored(theLinkedModel) + '/Model';
         elm.LinkedCol = 'modules/' + _s.underscored(theLinkedModel) + '/Collection';
 

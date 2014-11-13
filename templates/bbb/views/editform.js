@@ -7,6 +7,8 @@ define(function(require, exports, module) {
 
   var SelectBox  = require("lib/selectbox");
 
+  var OptionsGrid = require("lib/optionsgrid");
+
 
 	var Layout = Backbone.View.extend({
 
@@ -34,7 +36,20 @@ define(function(require, exports, module) {
 			<% }) %>
 
 
+						<% 
+			_.each(model.HasMany, function(relation) { %>  
+
+				this.setView('.grid-<%= relation.field %>', new OptionsGrid({el: this.$el.find('.grid-<%= relation.field %>'), collection: app.dataModel.<%= relation.field %>}));
+
+
+			<% }) %>
+
+
 			this.modelBinder.bind(this.model, this.$('.form'));
+
+
+
+
 		},
 
 

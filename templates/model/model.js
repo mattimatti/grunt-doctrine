@@ -75,8 +75,8 @@ define(function(require, exports, module) {
 
 
 					<%  _.each(model.HasMany, function(relation) {  %>  
-					<%  //console.log('HasMany');  %>  
-					<%  //console.dir(relation);  %>  
+					<%  console.log('HasMany');  %>  
+					<%  console.log(relation);  %>  
 					  {
 							type: Backbone.HasMany,
 							key: '<%= relation.field %>',

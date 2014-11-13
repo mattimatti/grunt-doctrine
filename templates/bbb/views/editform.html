@@ -16,7 +16,17 @@ _.each(model.HasOne, function(relation) { %>
 
   <div class="form-group">
     <label for="<%= relation.field %>"><%= relation.field %></label>
-    <select  class="form-control selectbox-<%= relation.field %>" id="<%= relation.field %>" name="<%= relation.field %>" ></select>
+    <div class="optionsgrid grid-<%= relation.field %>"></div>
+  </div>
+
+<% }) %>
+
+
+<% 
+_.each(model.HasMany, function(relation) { %>  
+
+  <div class="form-group">
+  	<div class="subview subview-<%= relation.field %>"></div>
   </div>
 
 <% }) %>
